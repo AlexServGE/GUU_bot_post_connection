@@ -3,16 +3,16 @@ from telegram.ext import (
     ConversationHandler,
 )
 # from User_contact.Checks.GenderChecker import GenderChecker
-from Bot_fd.Conversations.Checks import SurnameChecker
+from Bot_fd.Conversations.Checks.SurnameChecker import SurnameChecker
 from Bot_fd.Conversations.Checks.NameChecker import NameChecker
 from Bot_fd.Conversations.Checks.PatronymicChecker import PatronymicChecker
 from Bot_fd.Conversations.Checks.EmailChecker import EmailChecker
-from Bot_fd.Conversations.Checks import PhoneChecker
-from Bot_fd.Conversations.Checks import BirthdateChecker
-from Bot_fd.Conversations.Checks import GraddateChecker
+from Bot_fd.Conversations.Checks.PhoneChecker import PhoneChecker
+from Bot_fd.Conversations.Checks.BirthdateChecker import BirthdateChecker
+from Bot_fd.Conversations.Checks.GraddateChecker import GraddateChecker
 from Bot_fd.Conversations.Checks.InstituteChecker import InstituteChecker
 from Bot_fd.Conversations.Checks.EmployerChecker import EmployerChecker
-from Bot_fd.Conversations.Checks import PositionChecker
+from Bot_fd.Conversations.Checks.PositionChecker import PositionChecker
 
 
 class RegistrationConversation:
