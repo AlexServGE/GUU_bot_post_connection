@@ -1,0 +1,5 @@
+__pycache__/ 
+venv/
+.idea/
+ProcurementsDB/Procurements.db
+BotSql/Token.txt
