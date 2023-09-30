@@ -1,7 +1,5 @@
 import logging
 from PostgreSqlApiIns.PostgreSqlApiIns import SqlApiSel
-from datetime import datetime, timedelta
-import time
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, Update
 from telegram.ext import (
     Updater,
@@ -20,15 +18,16 @@ class ConversationBot:
         self.dispatcher = dispatcher
         self.logger = logger
         self.registration_conversation = RegistrationConversation(self.updater, self.dispatcher, self.logger)
-        self.time_now = time.time()
 
     def bot_session(self):
         conv_handler_registration = ConversationHandler(  # здесь строится логика разговора
             # точка входа в разговор
             entry_points=[MessageHandler(Filters.regex('^(Зарегистрироваться|зарегистрироваться)$'),
-                                         self.registration_conversation.personal_data_acceptance)],
+                                         self.registration_conversation.start_registration)],
             # этапы разговора, каждый со своим списком обработчиков сообщений
             states={
+                self.registration_conversation.PERSONAL_INFO_ACCEPTANCE: [
+                    MessageHandler(Filters.text, self.registration_conversation.personal_data_acceptance)],
                 self.registration_conversation.GENDER: [
                     MessageHandler(Filters.text, self.registration_conversation.reg_gender)],
                 self.registration_conversation.SURNAME: [
@@ -66,10 +65,11 @@ class ConversationBot:
 
         # Начинаем разговор с вопроса
         update.message.reply_text(
-            f'Добрый день {self.time_now}! Вас приветствует официальный бот Ассоциации выпускников Государственного Университета Управления.\n'
-            'Я здесь, чтобы помочь зарегистрироваться/обновить/удалить контактную информацию о Вас, которая позволит Ассоциации выпускников оставаться на связи с Вами.\n'
-            'Команда /cancel, чтобы прекратить разговор.\n'
-            'Уточните, что бы Вы хотели осуществить, выбрав необходимую Вам опцию:',
+            f'Доброго времени суток!\n'
+            f'Вас приветствует официальный бот Ассоциации выпускников Государственного Университета Управления.\n'
+            f'Я здесь, чтобы помочь зарегистрироваться/обновить/удалить контактную информацию о Вас, которая позволит Ассоциации выпускников оставаться на связи с Вами.\n'
+            f'Команда /cancel, чтобы прекратить разговор.\n'
+            f'Уточните, что бы Вы хотели осуществить, выбрав необходимую Вам опцию:',
             reply_markup=markup_key, )
 
         # определяем пользователя

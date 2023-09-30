@@ -1,28 +1,24 @@
-from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, Update
+from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import (
-    Updater,
-    CommandHandler,
-    MessageHandler,
-    Filters,
     ConversationHandler,
 )
 # from User_contact.Checks.GenderChecker import GenderChecker
-from User_contact.Checks.SurnameChecker import SurnameChecker
-from User_contact.Checks.NameChecker import NameChecker
-from User_contact.Checks.PatronymicChecker import PatronymicChecker
-from User_contact.Checks.EmailChecker import EmailChecker
-from User_contact.Checks.PhoneChecker import PhoneChecker
-from User_contact.Checks.BirthdateChecker import BirthdateChecker
-from User_contact.Checks.GraddateChecker import GraddateChecker
-from User_contact.Checks.InstituteChecker import InstituteChecker
-from User_contact.Checks.EmployerChecker import EmployerChecker
-from User_contact.Checks.PostionChecker import PostionChecker
+from Bot_fd.Conversations.Checks import SurnameChecker
+from Bot_fd.Conversations.Checks.NameChecker import NameChecker
+from Bot_fd.Conversations.Checks.PatronymicChecker import PatronymicChecker
+from Bot_fd.Conversations.Checks.EmailChecker import EmailChecker
+from Bot_fd.Conversations.Checks import PhoneChecker
+from Bot_fd.Conversations.Checks import BirthdateChecker
+from Bot_fd.Conversations.Checks import GraddateChecker
+from Bot_fd.Conversations.Checks.InstituteChecker import InstituteChecker
+from Bot_fd.Conversations.Checks.EmployerChecker import EmployerChecker
+from Bot_fd.Conversations.Checks import PositionChecker
 
 
 class RegistrationConversation:
     # Определяем константы этапов разговора
-    GENDER, SURNAME, NAME, PATRONYMIC, EMAIL, PHONE, BIRTHDATE, GRADDATE, INSTITUTE, EMPLOYER, POSITION = range(
-        11)
+    PERSONAL_INFO_ACCEPTANCE, GENDER, SURNAME, NAME, PATRONYMIC, EMAIL, PHONE, BIRTHDATE, GRADDATE, INSTITUTE, EMPLOYER,\
+        POSITION = range(12)
 
     def __init__(self, updater, dispatcher, logger):
         self.updater = updater
@@ -40,20 +36,14 @@ class RegistrationConversation:
         self.grad_checker = GraddateChecker()
         self.institute_checker = InstituteChecker()
         self.employer_checker = EmployerChecker()
-        self.position_checker = PostionChecker()
+        self.position_checker = PositionChecker()
 
     # Обрабатываем ответ по категории лекарственных препаратов
 
-    def personal_data_acceptance(self, update, context):
-        # определяем пользователя
-        user = update.message.from_user
-        # Пишем в журнал ответ пользователя
-        self.logger.info("Пользователь %s - %s", user.first_name, update.message.text)
-
+    def start_registration(self, update, context):
         # Список кнопок для ответа
         reply_keyboard = [['Подтверждаю'], ['Не подтверждаю']]
         markup_key = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
-
         # Разговор
         update.message.reply_text(
             f'Перечень персональных данных, на обработку которых дается согласие:\n'
@@ -61,7 +51,7 @@ class RegistrationConversation:
             f'2) Фамилия\n'
             f'3) Имя\n'
             f'4) Отчество\n'
-            f'5) Электронныый адрес\n'
+            f'5) Электронный адрес\n'
             f'6) Контактный телефон\n'
             f'7) Дата рождения\n'
             f'8) Дата окончания университета\n'
@@ -69,10 +59,9 @@ class RegistrationConversation:
             f'10) Должность',
             reply_markup=markup_key, )
 
-        # переходим к этапу `GENDER`
-        return self.GENDER
+        return self.PERSONAL_INFO_ACCEPTANCE
 
-    def reg_gender(self, update, context):
+    def personal_data_acceptance(self, update, context):
         if self.SUCCESSFUL_INPUTS < 1:
             # Разговор
             if update.message.text != "Подтверждаю":
@@ -86,25 +75,26 @@ class RegistrationConversation:
 
         # определяем пользователя
         user = update.message.from_user
-        # Пишем в журнал сведения с федеральным округом
+        # Пишем в журнал ответ пользователя
         self.logger.info("Пользователь %s - %s", user.first_name, update.message.text)
+
+        # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
+        # user_pdata_acceptance = update.message.text.capitalize()
+        # user_filters.append(update.message.text)
 
         # Разговор
         # Список кнопок для ответа
         reply_keyboard = [['Мужской'], ['Женский']]
         markup_key = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
 
-        # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
-        # user_pdata_acceptance = update.message.text.capitalize()
-        # user_filters.append(update.message.text)
-
         update.message.reply_text(
             'Укажите свой пол:', reply_markup=markup_key,
         )
 
-        return self.SURNAME
+        # переходим к этапу `GENDER`
+        return self.GENDER
 
-    def reg_surname(self, update, context):
+    def reg_gender(self, update, context):
         if self.SUCCESSFUL_INPUTS < 2:
             # Разговор
             if update.message.text != "Мужской" and update.message.text != "Женский":
@@ -113,13 +103,13 @@ class RegistrationConversation:
                         f'Просьба указывать запрашиваемую информацию. У Вас осталось {self.USER_TRIES} попытки.'
                     )
                     self.USER_TRIES -= 1
-                    return self.reg_gender(update, context)
+                    return self.personal_data_acceptance(update, context)
                 if self.USER_TRIES == 1:
                     update.message.reply_text(
                         f'Просьба указывать запрашиваемую информацию. У Вас осталась {self.USER_TRIES} попытка.'
                     )
                     self.USER_TRIES -= 1
-                    return self.reg_gender(update, context)
+                    return self.personal_data_acceptance(update, context)
                 if self.USER_TRIES == 0:
                     update.message.reply_text(
                         f'Просьба указывать запрашиваемую информацию. У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
@@ -147,9 +137,9 @@ class RegistrationConversation:
             'Укажите свою фамилию:',
         )
 
-        return self.NAME
+        return self.SURNAME
 
-    def reg_name(self, update, context):
+    def reg_surname(self, update, context):
         if self.SUCCESSFUL_INPUTS < 3:
             # Разговор
             msg_for_user = self.surname_checker.checkUserInputSurname(update.message.text)
@@ -161,7 +151,7 @@ class RegistrationConversation:
                     )
                     msg_for_user = ""
                     self.USER_TRIES -= 1
-                    return self.reg_surname(update, context)
+                    return self.reg_gender(update, context)
                 if self.USER_TRIES == 1:
                     update.message.reply_text(
                         f'{msg_for_user}\n'
@@ -169,7 +159,7 @@ class RegistrationConversation:
                     )
                     msg_for_user = ""
                     self.USER_TRIES -= 1
-                    return self.reg_surname(update, context)
+                    return self.reg_gender(update, context)
                 if self.USER_TRIES == 0:
                     update.message.reply_text(
                         f'{msg_for_user}\n'
@@ -200,9 +190,9 @@ class RegistrationConversation:
             'Укажите своё полное имя:',
         )
 
-        return self.PATRONYMIC
+        return self.NAME
 
-    def reg_patronymic(self, update, context):
+    def reg_name(self, update, context):
         if self.SUCCESSFUL_INPUTS < 4:
             msg_for_user = self.name_checker.checkUserInputName(update.message.text)
             if msg_for_user is not None:
@@ -212,14 +202,14 @@ class RegistrationConversation:
                         f'У Вас осталось {self.USER_TRIES} попытки.'
                     )
                     self.USER_TRIES -= 1
-                    return self.reg_name(update, context)
+                    return self.reg_surname(update, context)
                 if self.USER_TRIES == 1:
                     update.message.reply_text(
                         f'{msg_for_user}\n'
                         f'У Вас осталась {self.USER_TRIES} попытка.'
                     )
                     self.USER_TRIES -= 1
-                    return self.reg_name(update, context)
+                    return self.reg_surname(update, context)
                 if self.USER_TRIES == 0:
                     update.message.reply_text(
                         f'{msg_for_user}\n'
@@ -248,9 +238,9 @@ class RegistrationConversation:
             'Укажите своё отчество:',
         )
 
-        return self.EMAIL
+        return self.PATRONYMIC
 
-    def reg_email(self, update, context):
+    def reg_patronymic(self, update, context):
         if self.SUCCESSFUL_INPUTS < 5:
             msg_for_user = self.patronymic_checker.checkUserInputPatronymic(update.message.text)
             if msg_for_user is not None:
@@ -260,14 +250,14 @@ class RegistrationConversation:
                         f'У Вас осталось {self.USER_TRIES} попытки.'
                     )
                     self.USER_TRIES -= 1
-                    return self.reg_patronymic(update, context)
+                    return self.reg_name(update, context)
                 if self.USER_TRIES == 1:
                     update.message.reply_text(
                         f'{msg_for_user}\n'
                         f'У Вас осталась {self.USER_TRIES} попытка.'
                     )
                     self.USER_TRIES -= 1
-                    return self.reg_patronymic(update, context)
+                    return self.reg_name(update, context)
                 if self.USER_TRIES == 0:
                     update.message.reply_text(
                         f'{msg_for_user}\n'
@@ -294,9 +284,10 @@ class RegistrationConversation:
         update.message.reply_text(
             'Укажите свой электронный адрес для связи (в формате name@domain.ru):',
         )
-        return self.PHONE
 
-    def reg_phone(self, update, context):
+        return self.EMAIL
+
+    def reg_email(self, update, context):
         if self.SUCCESSFUL_INPUTS < 6:
             msg_for_user = self.email_checker.checkUserInputEmail(update.message.text)
             if msg_for_user is not None:
@@ -306,14 +297,14 @@ class RegistrationConversation:
                         f'У Вас осталось {self.USER_TRIES} попытки.'
                     )
                     self.USER_TRIES -= 1
-                    return self.reg_email(update, context)
+                    return self.reg_patronymic(update, context)
                 if self.USER_TRIES == 1:
                     update.message.reply_text(
                         f'{msg_for_user}\n'
                         f'У Вас осталась {self.USER_TRIES} попытка.'
                     )
                     self.USER_TRIES -= 1
-                    return self.reg_email(update, context)
+                    return self.reg_patronymic(update, context)
                 if self.USER_TRIES == 0:
                     update.message.reply_text(
                         f'{msg_for_user}\n'
@@ -341,33 +332,34 @@ class RegistrationConversation:
             'Укажите свой телефон для связи (в формате 84953778914):',
         )
 
-        return self.BIRTHDATE
+        return self.PHONE
 
-    def reg_birthdate(self, update, context):
+    def reg_phone(self, update, context):
         if self.SUCCESSFUL_INPUTS < 7:
             msg_for_user = self.phone_checker.checkUserInputPhone(update.message.text)
-            if self.USER_TRIES == 2:
-                update.message.reply_text(
-                    f'{msg_for_user}\n'
-                    f'У Вас осталось {self.USER_TRIES} попытки.'
-                )
-                self.USER_TRIES -= 1
-                return self.reg_phone(update, context)
-            if self.USER_TRIES == 1:
-                update.message.reply_text(
-                    f'{msg_for_user}\n'
-                    f'У Вас осталась {self.USER_TRIES} попытка.'
-                )
-                self.USER_TRIES -= 1
-                return self.reg_phone(update, context)
-            if self.USER_TRIES == 0:
-                update.message.reply_text(
-                    f'{msg_for_user}\n'
-                    f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
-                )
-                return self.cancel(update, context)
-            else:
-                return self.cancel(update, context)
+            if msg_for_user is not None:
+                if self.USER_TRIES == 2:
+                    update.message.reply_text(
+                        f'{msg_for_user}\n'
+                        f'У Вас осталось {self.USER_TRIES} попытки.'
+                    )
+                    self.USER_TRIES -= 1
+                    return self.reg_email(update, context)
+                if self.USER_TRIES == 1:
+                    update.message.reply_text(
+                        f'{msg_for_user}\n'
+                        f'У Вас осталась {self.USER_TRIES} попытка.'
+                    )
+                    self.USER_TRIES -= 1
+                    return self.reg_email(update, context)
+                if self.USER_TRIES == 0:
+                    update.message.reply_text(
+                        f'{msg_for_user}\n'
+                        f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
+                    )
+                    return self.cancel(update, context)
+                else:
+                    return self.cancel(update, context)
         else:
             self.USER_TRIES = 2
 
@@ -387,38 +379,38 @@ class RegistrationConversation:
             'Укажите свой год рождения (в формате 01.01.1999):',
         )
 
-        return self.GRADDATE
+        return self.BIRTHDATE
 
-
-    def reg_graddate(self, update, context):
-        if self.SUCCESSFUL_INPUTS < 8: #!
-            msg_for_user = self.birthdate_checker.checkUserInputBirthdate(update.message.text) #!
-            if self.USER_TRIES == 2:
-                update.message.reply_text(
-                    f'{msg_for_user}\n'
-                    f'У Вас осталось {self.USER_TRIES} попытки.'
-                )
-                self.USER_TRIES -= 1
-                return self.reg_birthdate(update, context) #!
-            if self.USER_TRIES == 1:
-                update.message.reply_text(
-                    f'{msg_for_user}\n'
-                    f'У Вас осталась {self.USER_TRIES} попытка.'
-                )
-                self.USER_TRIES -= 1
-                return self.reg_birthdate(update, context) #!
-            if self.USER_TRIES == 0:
-                update.message.reply_text(
-                    f'{msg_for_user}\n'
-                    f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
-                )
-                return self.cancel(update, context)
-            else:
-                return self.cancel(update, context)
+    def reg_birthdate(self, update, context):
+        if self.SUCCESSFUL_INPUTS < 8:  # !
+            msg_for_user = self.birthdate_checker.checkUserInputBirthdate(update.message.text)  # !
+            if msg_for_user is not None:
+                if self.USER_TRIES == 2:
+                    update.message.reply_text(
+                        f'{msg_for_user}\n'
+                        f'У Вас осталось {self.USER_TRIES} попытки.'
+                    )
+                    self.USER_TRIES -= 1
+                    return self.reg_phone(update, context)  # !
+                if self.USER_TRIES == 1:
+                    update.message.reply_text(
+                        f'{msg_for_user}\n'
+                        f'У Вас осталась {self.USER_TRIES} попытка.'
+                    )
+                    self.USER_TRIES -= 1
+                    return self.reg_phone(update, context)  # !
+                if self.USER_TRIES == 0:
+                    update.message.reply_text(
+                        f'{msg_for_user}\n'
+                        f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
+                    )
+                    return self.cancel(update, context)
+                else:
+                    return self.cancel(update, context)
         else:
             self.USER_TRIES = 2
 
-        self.SUCCESSFUL_INPUTS = 8 #!
+        self.SUCCESSFUL_INPUTS = 8  # !
 
         # определяем пользователя
         user = update.message.from_user
@@ -431,41 +423,41 @@ class RegistrationConversation:
 
         # Разговор
         update.message.reply_text(
-            'Укажите свой год окончания университета (в формате 4 цифр. Например: 1999):', #!
+            'Укажите свой год окончания университета (в формате 4 цифр. Например: 1999):',  # !
         )
 
-        return self.INSTITUTE
+        return self.GRADDATE
 
-
-    def reg_institute(self, update, context):
-        if self.SUCCESSFUL_INPUTS < 9: #!
-            msg_for_user = self.grad_checker.checkUserInputGraddate(update.message.text) #!
-            if self.USER_TRIES == 2:
-                update.message.reply_text(
-                    f'{msg_for_user}\n'
-                    f'У Вас осталось {self.USER_TRIES} попытки.'
-                )
-                self.USER_TRIES -= 1
-                return self.reg_graddate(update, context) #!
-            if self.USER_TRIES == 1:
-                update.message.reply_text(
-                    f'{msg_for_user}\n'
-                    f'У Вас осталась {self.USER_TRIES} попытка.'
-                )
-                self.USER_TRIES -= 1
-                return self.reg_graddate(update, context) #!
-            if self.USER_TRIES == 0:
-                update.message.reply_text(
-                    f'{msg_for_user}\n'
-                    f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
-                )
-                return self.cancel(update, context)
-            else:
-                return self.cancel(update, context)
+    def reg_graddate(self, update, context):
+        if self.SUCCESSFUL_INPUTS < 9:  # !
+            msg_for_user = self.grad_checker.checkUserInputGraddate(update.message.text)  # !
+            if msg_for_user is not None:
+                if self.USER_TRIES == 2:
+                    update.message.reply_text(
+                        f'{msg_for_user}\n'
+                        f'У Вас осталось {self.USER_TRIES} попытки.'
+                    )
+                    self.USER_TRIES -= 1
+                    return self.reg_birthdate(update, context)  # !
+                if self.USER_TRIES == 1:
+                    update.message.reply_text(
+                        f'{msg_for_user}\n'
+                        f'У Вас осталась {self.USER_TRIES} попытка.'
+                    )
+                    self.USER_TRIES -= 1
+                    return self.reg_birthdate(update, context)  # !
+                if self.USER_TRIES == 0:
+                    update.message.reply_text(
+                        f'{msg_for_user}\n'
+                        f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
+                    )
+                    return self.cancel(update, context)
+                else:
+                    return self.cancel(update, context)
         else:
             self.USER_TRIES = 2
 
-        self.SUCCESSFUL_INPUTS = 9 #!
+        self.SUCCESSFUL_INPUTS = 9  # !
 
         # определяем пользователя
         user = update.message.from_user
@@ -478,40 +470,41 @@ class RegistrationConversation:
 
         # Разговор
         update.message.reply_text(
-            'Укажите, какое структурное подразделение Вы оканчивали:', #!
+            'Укажите, какое структурное подразделение Вы оканчивали:',  # !
         )
 
-        return self.EMPLOYER
+        return self.INSTITUTE
 
-    def reg_employer(self, update, context):
-        if self.SUCCESSFUL_INPUTS < 10: #!
-            msg_for_user = self.institute_checker.checkUserInputInstitute(update.message.text) #!!
-            if self.USER_TRIES == 2:
-                update.message.reply_text(
-                    f'{msg_for_user}\n'
-                    f'У Вас осталось {self.USER_TRIES} попытки.'
-                )
-                self.USER_TRIES -= 1
-                return self.reg_institute(update, context) #!
-            if self.USER_TRIES == 1:
-                update.message.reply_text(
-                    f'{msg_for_user}\n'
-                    f'У Вас осталась {self.USER_TRIES} попытка.'
-                )
-                self.USER_TRIES -= 1
-                return self.reg_institute(update, context) #!
-            if self.USER_TRIES == 0:
-                update.message.reply_text(
-                    f'{msg_for_user}\n'
-                    f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
-                )
-                return self.cancel(update, context)
-            else:
-                return self.cancel(update, context)
+    def reg_institute(self, update, context):
+        if self.SUCCESSFUL_INPUTS < 10:  # !
+            msg_for_user = self.institute_checker.checkUserInputInstitute(update.message.text)  # !!
+            if msg_for_user is not None:
+                if self.USER_TRIES == 2:
+                    update.message.reply_text(
+                        f'{msg_for_user}\n'
+                        f'У Вас осталось {self.USER_TRIES} попытки.'
+                    )
+                    self.USER_TRIES -= 1
+                    return self.reg_graddate(update, context)  # !
+                if self.USER_TRIES == 1:
+                    update.message.reply_text(
+                        f'{msg_for_user}\n'
+                        f'У Вас осталась {self.USER_TRIES} попытка.'
+                    )
+                    self.USER_TRIES -= 1
+                    return self.reg_graddate(update, context)  # !
+                if self.USER_TRIES == 0:
+                    update.message.reply_text(
+                        f'{msg_for_user}\n'
+                        f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
+                    )
+                    return self.cancel(update, context)
+                else:
+                    return self.cancel(update, context)
         else:
             self.USER_TRIES = 2
 
-        self.SUCCESSFUL_INPUTS = 10 #!
+        self.SUCCESSFUL_INPUTS = 10  # !
 
         # определяем пользователя
         user = update.message.from_user
@@ -524,39 +517,41 @@ class RegistrationConversation:
 
         # Разговор
         update.message.reply_text(
-            'Укажите, своего текущего работодателя, либо оставьте прочерк:', #!
+            'Укажите, своего текущего работодателя, либо оставьте прочерк:',  # !
         )
-        return self.POSITION
 
-    def reg_position(self, update, context):
-        if self.SUCCESSFUL_INPUTS < 11: #!
-            msg_for_user = self.employer_checker.checkUserInputEmployer(update.message.text) #!
-            if self.USER_TRIES == 2:
-                update.message.reply_text(
-                    f'{msg_for_user}\n'
-                    f'У Вас осталось {self.USER_TRIES} попытки.'
-                )
-                self.USER_TRIES -= 1
-                return self.reg_employer(update, context) #!
-            if self.USER_TRIES == 1:
-                update.message.reply_text(
-                    f'{msg_for_user}\n'
-                    f'У Вас осталась {self.USER_TRIES} попытка.'
-                )
-                self.USER_TRIES -= 1
-                return self.reg_employer(update, context) #!
-            if self.USER_TRIES == 0:
-                update.message.reply_text(
-                    f'{msg_for_user}\n'
-                    f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
-                )
-                return self.cancel(update, context)
-            else:
-                return self.cancel(update, context)
+        return self.EMPLOYER
+
+    def reg_employer(self, update, context):
+        if self.SUCCESSFUL_INPUTS < 11:  # !
+            msg_for_user = self.employer_checker.checkUserInputEmployer(update.message.text)  # !
+            if msg_for_user is not None:
+                if self.USER_TRIES == 2:
+                    update.message.reply_text(
+                        f'{msg_for_user}\n'
+                        f'У Вас осталось {self.USER_TRIES} попытки.'
+                    )
+                    self.USER_TRIES -= 1
+                    return self.reg_institute(update, context)  # !
+                if self.USER_TRIES == 1:
+                    update.message.reply_text(
+                        f'{msg_for_user}\n'
+                        f'У Вас осталась {self.USER_TRIES} попытка.'
+                    )
+                    self.USER_TRIES -= 1
+                    return self.reg_institute(update, context)  # !
+                if self.USER_TRIES == 0:
+                    update.message.reply_text(
+                        f'{msg_for_user}\n'
+                        f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
+                    )
+                    return self.cancel(update, context)
+                else:
+                    return self.cancel(update, context)
         else:
             self.USER_TRIES = 2
 
-        self.SUCCESSFUL_INPUTS = 11 #!
+        self.SUCCESSFUL_INPUTS = 11  # !
 
         # определяем пользователя
         user = update.message.from_user
@@ -569,10 +564,58 @@ class RegistrationConversation:
 
         # Разговор
         update.message.reply_text(
-            'Укажите, свою должность, либо оставьте прочерк:', #!
+            'Укажите, свою должность, либо оставьте прочерк:',  # !
         )
-        return pass
 
+        return self.POSITION
+
+    def reg_position(self, update, context):
+        if self.SUCCESSFUL_INPUTS < 12:  # !
+            msg_for_user = self.position_checker.checkUserInputPosition(update.message.text)  # !
+            if msg_for_user is not None:
+                if self.USER_TRIES == 2:
+                    update.message.reply_text(
+                        f'{msg_for_user}\n'
+                        f'У Вас осталось {self.USER_TRIES} попытки.'
+                    )
+                    self.USER_TRIES -= 1
+                    return self.reg_employer(update, context)  # !
+                if self.USER_TRIES == 1:
+                    update.message.reply_text(
+                        f'{msg_for_user}\n'
+                        f'У Вас осталась {self.USER_TRIES} попытка.'
+                    )
+                    self.USER_TRIES -= 1
+                    return self.reg_employer(update, context)  # !
+                if self.USER_TRIES == 0:
+                    update.message.reply_text(
+                        f'{msg_for_user}\n'
+                        f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
+                    )
+                    return self.cancel(update, context)
+                else:
+                    return self.cancel(update, context)
+        else:
+            self.USER_TRIES = 2
+
+        self.SUCCESSFUL_INPUTS = 12  # !
+
+        # определяем пользователя
+        user = update.message.from_user
+        # Пишем в журнал сведения с федеральным округом
+        self.logger.info("Пользователь %s - %s", user.first_name, update.message.text)
+
+        # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
+        # user_position = update.message.text #!
+        # user_filters.append(update.message.text)
+
+        # Разговор
+        update.message.reply_text(
+            'Ассоциация выпускников ГУУ благодарит Вас, что поделились информацией о себе.\n'
+            'Чтобы продолжить работу с ботом нажмите /start.',  # !
+        )
+
+        return ConversationHandler.END
 
     # Обрабатываем команду /skip для фото
     # def skip_photo(self,update, _):
