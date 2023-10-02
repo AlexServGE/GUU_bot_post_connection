@@ -55,8 +55,9 @@ class RegistrationConversation:
             f'6) Контактный телефон\n'
             f'7) Дата рождения\n'
             f'8) Дата окончания университета\n'
-            f'9) Работодатель\n'
-            f'10) Должность',
+            f'9) Структурное подразделение\n'
+            f'10) Работодатель\n'
+            f'11) Должность',
             reply_markup=markup_key, )
 
         return self.PERSONAL_INFO_ACCEPTANCE
@@ -67,8 +68,14 @@ class RegistrationConversation:
             if update.message.text != "Подтверждаю":
                 update.message.reply_text(
                     'Вы не подтвердили согласие на обработку Ваших персональных данных. Процесс регистрации прекращён.'
+                    'Чтобы продолжить работу с ботом нажмите /start.'
                 )
                 return self.cancel(update, context)
+            else:
+                pass
+                # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
+                # user_pdata_acceptance = update.message.text.capitalize()
+                # user_filters.append(update.message.text)
 
         # блокировка успешно сработавших проверок ранее
         self.SUCCESSFUL_INPUTS = 1
@@ -77,10 +84,6 @@ class RegistrationConversation:
         user = update.message.from_user
         # Пишем в журнал ответ пользователя
         self.logger.info("Пользователь %s - %s", user.first_name, update.message.text)
-
-        # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
-        # user_pdata_acceptance = update.message.text.capitalize()
-        # user_filters.append(update.message.text)
 
         # Разговор
         # Список кнопок для ответа
@@ -119,6 +122,9 @@ class RegistrationConversation:
                     return self.cancel(update, context)
             else:
                 self.USER_TRIES = 2
+                # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
+                # user_gender = update.message.text.capitalize() !!важно! создать класс пользователя
+                # user_filters.append(update.message.text)
 
         # блокировка успешно сработавших проверок ранее
         self.SUCCESSFUL_INPUTS = 2
@@ -127,10 +133,6 @@ class RegistrationConversation:
         user = update.message.from_user
         # Пишем в журнал сведения с федеральным округом
         self.logger.info("Пользователь %s - %s", user.first_name, update.message.text)
-
-        # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
-        # user_gender = update.message.text.capitalize() !!важно! создать класс пользователя
-        # user_filters.append(update.message.text)
 
         # Разговор
         update.message.reply_text(
@@ -172,6 +174,9 @@ class RegistrationConversation:
                     return self.cancel(update, context)
             else:
                 self.USER_TRIES = 2
+                # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
+                # user_surname = update.message.text.capitalize() !!важно! создать класс пользователя
+                # user_filters.append(update.message.text)
 
         # блокировка успешно сработавших проверок ранее
         self.SUCCESSFUL_INPUTS = 3
@@ -180,10 +185,6 @@ class RegistrationConversation:
         user = update.message.from_user
         # Пишем в журнал сведения с федеральным округом
         self.logger.info("Пользователь %s - %s", user.first_name, update.message.text)
-
-        # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
-        # user_surname = update.message.text.capitalize() !!важно! создать класс пользователя
-        # user_filters.append(update.message.text)
 
         # Разговор
         update.message.reply_text(
@@ -220,6 +221,9 @@ class RegistrationConversation:
                     return self.cancel(update, context)
             else:
                 self.USER_TRIES = 2
+                # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
+                # user_name = update.message.text.capitalize() !!важно! создать класс пользователя
+                # user_filters.append(update.message.text)
 
         # блокировка успешно сработавших проверок ранее
         self.SUCCESSFUL_INPUTS = 4
@@ -228,10 +232,6 @@ class RegistrationConversation:
         user = update.message.from_user
         # Пишем в журнал сведения с федеральным округом
         self.logger.info("Пользователь %s - %s", user.first_name, update.message.text)
-
-        # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
-        # user_name = update.message.text.capitalize() !!важно! создать класс пользователя
-        # user_filters.append(update.message.text)
 
         # Разговор
         update.message.reply_text(
@@ -268,6 +268,9 @@ class RegistrationConversation:
                     return self.cancel(update, context)
             else:
                 self.USER_TRIES = 2
+                # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
+                # user_patronymic = update.message.text.capitalize() !!важно! создать класс пользователя
+                # user_filters.append(update.message.text)
 
         self.SUCCESSFUL_INPUTS = 5
 
@@ -275,10 +278,6 @@ class RegistrationConversation:
         user = update.message.from_user
         # Пишем в журнал сведения с федеральным округом
         self.logger.info("Пользователь %s - %s", user.first_name, update.message.text)
-
-        # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
-        # user_patronymic = update.message.text.capitalize() !!важно! создать класс пользователя
-        # user_filters.append(update.message.text)
 
         # Разговор
         update.message.reply_text(
@@ -315,6 +314,9 @@ class RegistrationConversation:
                     return self.cancel(update, context)
             else:
                 self.USER_TRIES = 2
+                # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
+                # user_email = update.message.text
+                # user_filters.append(update.message.text)
 
         self.SUCCESSFUL_INPUTS = 6
 
@@ -322,10 +324,6 @@ class RegistrationConversation:
         user = update.message.from_user
         # Пишем в журнал сведения с федеральным округом
         self.logger.info("Пользователь %s - %s", user.first_name, update.message.text)
-
-        # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
-        # user_email = update.message.text
-        # user_filters.append(update.message.text)
 
         # Разговор
         update.message.reply_text(
@@ -362,6 +360,9 @@ class RegistrationConversation:
                     return self.cancel(update, context)
         else:
             self.USER_TRIES = 2
+            # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
+            # user_phone = update.message.text
+            # user_filters.append(update.message.text)
 
         self.SUCCESSFUL_INPUTS = 7
 
@@ -369,10 +370,6 @@ class RegistrationConversation:
         user = update.message.from_user
         # Пишем в журнал сведения с федеральным округом
         self.logger.info("Пользователь %s - %s", user.first_name, update.message.text)
-
-        # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
-        # user_phone = update.message.text
-        # user_filters.append(update.message.text)
 
         # Разговор
         update.message.reply_text(
@@ -409,6 +406,9 @@ class RegistrationConversation:
                     return self.cancel(update, context)
         else:
             self.USER_TRIES = 2
+            # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
+            # user_birthdate = update.message.text #!
+            # user_filters.append(update.message.text)
 
         self.SUCCESSFUL_INPUTS = 8  # !
 
@@ -416,10 +416,6 @@ class RegistrationConversation:
         user = update.message.from_user
         # Пишем в журнал сведения с федеральным округом
         self.logger.info("Пользователь %s - %s", user.first_name, update.message.text)
-
-        # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
-        # user_birthdate = update.message.text #!
-        # user_filters.append(update.message.text)
 
         # Разговор
         update.message.reply_text(
@@ -456,6 +452,9 @@ class RegistrationConversation:
                     return self.cancel(update, context)
         else:
             self.USER_TRIES = 2
+            # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
+            # user_graddate = update.message.text #!
+            # user_filters.append(update.message.text)
 
         self.SUCCESSFUL_INPUTS = 9  # !
 
@@ -463,10 +462,6 @@ class RegistrationConversation:
         user = update.message.from_user
         # Пишем в журнал сведения с федеральным округом
         self.logger.info("Пользователь %s - %s", user.first_name, update.message.text)
-
-        # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
-        # user_graddate = update.message.text #!
-        # user_filters.append(update.message.text)
 
         # Разговор
         update.message.reply_text(
@@ -503,6 +498,9 @@ class RegistrationConversation:
                     return self.cancel(update, context)
         else:
             self.USER_TRIES = 2
+            # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
+            # user_institute = update.message.text #!
+            # user_filters.append(update.message.text)
 
         self.SUCCESSFUL_INPUTS = 10  # !
 
@@ -510,10 +508,6 @@ class RegistrationConversation:
         user = update.message.from_user
         # Пишем в журнал сведения с федеральным округом
         self.logger.info("Пользователь %s - %s", user.first_name, update.message.text)
-
-        # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
-        # user_institute = update.message.text #!
-        # user_filters.append(update.message.text)
 
         # Разговор
         update.message.reply_text(
@@ -550,6 +544,9 @@ class RegistrationConversation:
                     return self.cancel(update, context)
         else:
             self.USER_TRIES = 2
+            # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
+            # user_employer = update.message.text #!
+            # user_filters.append(update.message.text)
 
         self.SUCCESSFUL_INPUTS = 11  # !
 
@@ -557,10 +554,6 @@ class RegistrationConversation:
         user = update.message.from_user
         # Пишем в журнал сведения с федеральным округом
         self.logger.info("Пользователь %s - %s", user.first_name, update.message.text)
-
-        # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
-        # user_employer = update.message.text #!
-        # user_filters.append(update.message.text)
 
         # Разговор
         update.message.reply_text(
@@ -597,6 +590,9 @@ class RegistrationConversation:
                     return self.cancel(update, context)
         else:
             self.USER_TRIES = 2
+            # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
+            # user_position = update.message.text #!
+            # user_filters.append(update.message.text)
 
         self.SUCCESSFUL_INPUTS = 12  # !
 
@@ -604,10 +600,6 @@ class RegistrationConversation:
         user = update.message.from_user
         # Пишем в журнал сведения с федеральным округом
         self.logger.info("Пользователь %s - %s", user.first_name, update.message.text)
-
-        # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
-        # user_position = update.message.text #!
-        # user_filters.append(update.message.text)
 
         # Разговор
         update.message.reply_text(
