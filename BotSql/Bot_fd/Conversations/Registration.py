@@ -63,6 +63,10 @@ class RegistrationConversation:
         return self.PERSONAL_INFO_ACCEPTANCE
 
     def personal_data_acceptance(self, update, context):
+        if update.message.text == "/cancel":
+            self.USER_TRIES = 2
+            self.SUCCESSFUL_INPUTS = 0
+            return self.cancel(update, context)
         if self.SUCCESSFUL_INPUTS < 1:
             # Разговор
             if update.message.text != "Подтверждаю":
@@ -70,6 +74,7 @@ class RegistrationConversation:
                     'Вы не подтвердили согласие на обработку Ваших персональных данных. Процесс регистрации прекращён.'
                     'Чтобы продолжить работу с ботом нажмите /start.'
                 )
+                self.SUCCESSFUL_INPUTS = 0
                 return self.cancel(update, context)
             else:
                 pass
@@ -98,6 +103,10 @@ class RegistrationConversation:
         return self.GENDER
 
     def reg_gender(self, update, context):
+        if update.message.text == "/cancel":
+            self.USER_TRIES = 2
+            self.SUCCESSFUL_INPUTS = 0
+            return self.cancel(update, context)
         if self.SUCCESSFUL_INPUTS < 2:
             # Разговор
             if update.message.text != "Мужской" and update.message.text != "Женский":
@@ -117,8 +126,8 @@ class RegistrationConversation:
                     update.message.reply_text(
                         f'Просьба указывать запрашиваемую информацию. У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
                     )
-                    return self.cancel(update, context)
-                else:
+                    self.USER_TRIES = 2
+                    self.SUCCESSFUL_INPUTS = 0
                     return self.cancel(update, context)
             else:
                 self.USER_TRIES = 2
@@ -142,6 +151,10 @@ class RegistrationConversation:
         return self.SURNAME
 
     def reg_surname(self, update, context):
+        if update.message.text == "/cancel":
+            self.USER_TRIES = 2
+            self.SUCCESSFUL_INPUTS = 0
+            return self.cancel(update, context)
         if self.SUCCESSFUL_INPUTS < 3:
             # Разговор
             msg_for_user = self.surname_checker.checkUserInputSurname(update.message.text)
@@ -167,9 +180,8 @@ class RegistrationConversation:
                         f'{msg_for_user}\n'
                         f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
                     )
-                    msg_for_user = ""
-                    return self.cancel(update, context)
-                else:
+                    self.USER_TRIES = 2
+                    self.SUCCESSFUL_INPUTS = 0
                     msg_for_user = ""
                     return self.cancel(update, context)
             else:
@@ -194,6 +206,10 @@ class RegistrationConversation:
         return self.NAME
 
     def reg_name(self, update, context):
+        if update.message.text == "/cancel":
+            self.USER_TRIES = 2
+            self.SUCCESSFUL_INPUTS = 0
+            return self.cancel(update, context)
         if self.SUCCESSFUL_INPUTS < 4:
             msg_for_user = self.name_checker.checkUserInputName(update.message.text)
             if msg_for_user is not None:
@@ -216,8 +232,8 @@ class RegistrationConversation:
                         f'{msg_for_user}\n'
                         f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
                     )
-                    return self.cancel(update, context)
-                else:
+                    self.USER_TRIES = 2
+                    self.SUCCESSFUL_INPUTS = 0
                     return self.cancel(update, context)
             else:
                 self.USER_TRIES = 2
@@ -241,6 +257,10 @@ class RegistrationConversation:
         return self.PATRONYMIC
 
     def reg_patronymic(self, update, context):
+        if update.message.text == "/cancel":
+            self.USER_TRIES = 2
+            self.SUCCESSFUL_INPUTS = 0
+            return self.cancel(update, context)
         if self.SUCCESSFUL_INPUTS < 5:
             msg_for_user = self.patronymic_checker.checkUserInputPatronymic(update.message.text)
             if msg_for_user is not None:
@@ -263,8 +283,8 @@ class RegistrationConversation:
                         f'{msg_for_user}\n'
                         f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
                     )
-                    return self.cancel(update, context)
-                else:
+                    self.USER_TRIES = 2
+                    self.SUCCESSFUL_INPUTS = 0
                     return self.cancel(update, context)
             else:
                 self.USER_TRIES = 2
@@ -287,6 +307,10 @@ class RegistrationConversation:
         return self.EMAIL
 
     def reg_email(self, update, context):
+        if update.message.text == "/cancel":
+            self.USER_TRIES = 2
+            self.SUCCESSFUL_INPUTS = 0
+            return self.cancel(update, context)
         if self.SUCCESSFUL_INPUTS < 6:
             msg_for_user = self.email_checker.checkUserInputEmail(update.message.text)
             if msg_for_user is not None:
@@ -309,8 +333,8 @@ class RegistrationConversation:
                         f'{msg_for_user}\n'
                         f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
                     )
-                    return self.cancel(update, context)
-                else:
+                    self.USER_TRIES = 2
+                    self.SUCCESSFUL_INPUTS = 0
                     return self.cancel(update, context)
             else:
                 self.USER_TRIES = 2
@@ -333,6 +357,10 @@ class RegistrationConversation:
         return self.PHONE
 
     def reg_phone(self, update, context):
+        if update.message.text == "/cancel":
+            self.USER_TRIES = 2
+            self.SUCCESSFUL_INPUTS = 0
+            return self.cancel(update, context)
         if self.SUCCESSFUL_INPUTS < 7:
             msg_for_user = self.phone_checker.checkUserInputPhone(update.message.text)
             if msg_for_user is not None:
@@ -355,8 +383,8 @@ class RegistrationConversation:
                         f'{msg_for_user}\n'
                         f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
                     )
-                    return self.cancel(update, context)
-                else:
+                    self.USER_TRIES = 2
+                    self.SUCCESSFUL_INPUTS = 0
                     return self.cancel(update, context)
         else:
             self.USER_TRIES = 2
@@ -379,6 +407,10 @@ class RegistrationConversation:
         return self.BIRTHDATE
 
     def reg_birthdate(self, update, context):
+        if update.message.text == "/cancel":
+            self.USER_TRIES = 2
+            self.SUCCESSFUL_INPUTS = 0
+            return self.cancel(update, context)
         if self.SUCCESSFUL_INPUTS < 8:  # !
             msg_for_user = self.birthdate_checker.checkUserInputBirthdate(update.message.text)  # !
             if msg_for_user is not None:
@@ -401,8 +433,8 @@ class RegistrationConversation:
                         f'{msg_for_user}\n'
                         f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
                     )
-                    return self.cancel(update, context)
-                else:
+                    self.USER_TRIES = 2
+                    self.SUCCESSFUL_INPUTS = 0
                     return self.cancel(update, context)
         else:
             self.USER_TRIES = 2
@@ -425,6 +457,10 @@ class RegistrationConversation:
         return self.GRADDATE
 
     def reg_graddate(self, update, context):
+        if update.message.text == "/cancel":
+            self.USER_TRIES = 2
+            self.SUCCESSFUL_INPUTS = 0
+            return self.cancel(update, context)
         if self.SUCCESSFUL_INPUTS < 9:  # !
             msg_for_user = self.grad_checker.checkUserInputGraddate(update.message.text)  # !
             if msg_for_user is not None:
@@ -447,8 +483,8 @@ class RegistrationConversation:
                         f'{msg_for_user}\n'
                         f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
                     )
-                    return self.cancel(update, context)
-                else:
+                    self.USER_TRIES = 2
+                    self.SUCCESSFUL_INPUTS = 0
                     return self.cancel(update, context)
         else:
             self.USER_TRIES = 2
@@ -471,6 +507,10 @@ class RegistrationConversation:
         return self.INSTITUTE
 
     def reg_institute(self, update, context):
+        if update.message.text == "/cancel":
+            self.USER_TRIES = 2
+            self.SUCCESSFUL_INPUTS = 0
+            return self.cancel(update, context)
         if self.SUCCESSFUL_INPUTS < 10:  # !
             msg_for_user = self.institute_checker.checkUserInputInstitute(update.message.text)  # !!
             if msg_for_user is not None:
@@ -493,8 +533,8 @@ class RegistrationConversation:
                         f'{msg_for_user}\n'
                         f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
                     )
-                    return self.cancel(update, context)
-                else:
+                    self.USER_TRIES = 2
+                    self.SUCCESSFUL_INPUTS = 0
                     return self.cancel(update, context)
         else:
             self.USER_TRIES = 2
@@ -517,6 +557,10 @@ class RegistrationConversation:
         return self.EMPLOYER
 
     def reg_employer(self, update, context):
+        if update.message.text == "/cancel":
+            self.USER_TRIES = 2
+            self.SUCCESSFUL_INPUTS = 0
+            return self.cancel(update, context)
         if self.SUCCESSFUL_INPUTS < 11:  # !
             msg_for_user = self.employer_checker.checkUserInputEmployer(update.message.text)  # !
             if msg_for_user is not None:
@@ -539,8 +583,8 @@ class RegistrationConversation:
                         f'{msg_for_user}\n'
                         f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
                     )
-                    return self.cancel(update, context)
-                else:
+                    self.USER_TRIES = 2
+                    self.SUCCESSFUL_INPUTS = 0
                     return self.cancel(update, context)
         else:
             self.USER_TRIES = 2
@@ -563,6 +607,10 @@ class RegistrationConversation:
         return self.POSITION
 
     def reg_position(self, update, context):
+        if update.message.text == "/cancel":
+            self.USER_TRIES = 2
+            self.SUCCESSFUL_INPUTS = 0
+            return self.cancel(update, context)
         if self.SUCCESSFUL_INPUTS < 12:  # !
             msg_for_user = self.position_checker.checkUserInputPosition(update.message.text)  # !
             if msg_for_user is not None:
@@ -585,8 +633,8 @@ class RegistrationConversation:
                         f'{msg_for_user}\n'
                         f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
                     )
-                    return self.cancel(update, context)
-                else:
+                    self.USER_TRIES = 2
+                    self.SUCCESSFUL_INPUTS = 0
                     return self.cancel(update, context)
         else:
             self.USER_TRIES = 2
@@ -632,8 +680,12 @@ class RegistrationConversation:
         # Отвечаем на отказ поговорить
         update.message.reply_text(
             'Моё дело предложить - Ваше отказаться. '
-            'Будет скучно - пишите.',
+            'Будет скучно - пишите.'
+            'Чтобы продолжить работу с ботом нажмите /start.',
             reply_markup=ReplyKeyboardRemove()
         )
+
+        self.USER_TRIES = 2
+        self.SUCCESSFUL_INPUTS = 0
         # Заканчиваем разговор.
         return ConversationHandler.END
