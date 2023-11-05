@@ -1,5 +1,6 @@
 import logging
 from PostgreSqlApiIns.PostgreSqlApiIns import SqlApiSel
+from User_info_captured.User_info_captured import User
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, Update
 from telegram.ext import (
     Updater,
@@ -14,10 +15,39 @@ from .Conversations.Registration import RegistrationConversation
 class ConversationBot:
 
     def __init__(self, updater, dispatcher, logger):
+        self.ex_student = User()
         self.updater = updater
         self.dispatcher = dispatcher
         self.logger = logger
-        self.registration_conversation = RegistrationConversation(self.updater, self.dispatcher, self.logger)
+        self.registration_conversation = RegistrationConversation(self.updater, self.dispatcher, self.logger,
+                                                                  self.ex_student)
+
+    def start(self, update, context):
+        reply_keyboard = [['Зарегистрироваться', 'Обновить', 'Удалить']]
+        markup_key = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
+
+        # Начинаем разговор с вопроса
+        update.message.reply_text(
+            f'Доброго времени суток!\n'
+            f'<Тестовая версия. Может быть отключена в любой момент>\n'
+            f'Вас приветствует официальный бот Ассоциации выпускников Государственного Университета Управления.\n'
+            f'Я здесь, чтобы помочь зарегистрироваться/обновить/удалить контактную информацию о Вас, которая позволит Ассоциации выпускников оставаться на связи с Вами.\n'
+            f'Команда /cancel, чтобы прекратить разговор.\n'
+            f'Уточните, что бы Вы хотели осуществить, выбрав необходимую Вам опцию:',
+            reply_markup=markup_key, )
+
+        # определяем пользователя
+        user = update.message.from_user
+        # Пишем в журнал ответ пользователя
+        self.logger.info("Пользователь %s - %s", user.first_name, update.message.text)
+
+        # if update.message.text == "Зарегистрировать":
+        #     # Здесь важно установить проверку по telegram id есть ли уже такой пользователь в базе данных
+        #     return RegistrationConversation()
+        # elif update.message.text == "Обновить":
+        #     return update.message.reply_text("Данная секция бота находится в разработке")
+        # elif update.message.text == "Удалить":
+        #     return update.message.reply_text("Данная секция бота находится в разработке")
 
     def bot_session(self):
         conv_handler_registration = ConversationHandler(  # здесь строится логика разговора
@@ -52,39 +82,14 @@ class ConversationBot:
                     MessageHandler(Filters.text, self.registration_conversation.reg_position)],
             },
             # точка выхода из разговора
-            fallbacks=[CommandHandler('cancel', self.registration_conversation.cancel)], ##что-то другое нужно
+            fallbacks=[CommandHandler('cancel', self.registration_conversation.cancel)],  ##что-то другое нужно
         )
 
         # Добавляем обработчик разговоров `conv_handler`
         self.dispatcher.add_handler(conv_handler_registration)
         self.dispatcher.add_handler(CommandHandler("start", self.start))
 
-    def start(self, update, context):
-        reply_keyboard = [['Зарегистрироваться', 'Обновить', 'Удалить']]
-        markup_key = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
 
-        # Начинаем разговор с вопроса
-        update.message.reply_text(
-            f'Доброго времени суток!\n'
-            f'<Тестовая версия. Может быть отключена в любой момент>\n'
-            f'Вас приветствует официальный бот Ассоциации выпускников Государственного Университета Управления.\n'
-            f'Я здесь, чтобы помочь зарегистрироваться/обновить/удалить контактную информацию о Вас, которая позволит Ассоциации выпускников оставаться на связи с Вами.\n'
-            f'Команда /cancel, чтобы прекратить разговор.\n'
-            f'Уточните, что бы Вы хотели осуществить, выбрав необходимую Вам опцию:',
-            reply_markup=markup_key, )
-
-        # определяем пользователя
-        user = update.message.from_user
-        # Пишем в журнал ответ пользователя
-        self.logger.info("Пользователь %s - %s", user.first_name, update.message.text)
-
-        # if update.message.text == "Зарегистрировать":
-        #     # Здесь важно установить проверку по telegram id есть ли уже такой пользователь в базе данных
-        #     return RegistrationConversation()
-        # elif update.message.text == "Обновить":
-        #     return update.message.reply_text("Данная секция бота находится в разработке")
-        # elif update.message.text == "Удалить":
-        #     return update.message.reply_text("Данная секция бота находится в разработке")
 
 
 if __name__ == '__main__':
