@@ -20,3 +20,22 @@ class User:
         self.user_INSTITUTE = user_INSTITUTE
         self.user_EMPLOYER = user_EMPLOYER
         self.user_POSITION = user_POSITION
+
+
+    #На будущее: когда буду писать ветку обновления информации, необходимо добавить поле дата_последнего_обновления
+    def __str__(self):
+        return f"Дата регистрации: {self.user_date_of_first_registration}\n" \
+               f"Телеграм_id: {self.user_telegram_id}\n" \
+               f"Телеграм_ник: {self.user_telegram_nickname}\n" \
+               f"Подтверждение обработки ПД: {self.user_PERSONAL_INFO_ACCEPTANCE}\n" \
+               f"Пол: {self.user_GENDER}\n" \
+               f"Фамилия: {self.user_SURNAME}\n" \
+               f"Имя: {self.user_NAME}\n" \
+               f"Отчество: {self.user_PATRONYMIC}\n" \
+               f"Емейл: {self.user_EMAIL}\n" \
+               f"Телефон: {self.user_PHONE}\n" \
+               f"День рождения: {self.user_BIRTHDATE}\n" \
+               f"Год выпуска: {self.user_GRADDATE}\n" \
+               f"Институт: {self.user_INSTITUTE}\n" \
+               f"Работодатель: {self.user_EMPLOYER}\n" \
+               f"Позиция: {self.user_POSITION}\n"

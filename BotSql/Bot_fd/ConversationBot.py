@@ -1,5 +1,5 @@
 import logging
-from PostgreSqlApiIns.PostgreSqlApiIns import SqlApiSel
+
 from User_info_captured.User_info_captured import User
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, Update
 from telegram.ext import (

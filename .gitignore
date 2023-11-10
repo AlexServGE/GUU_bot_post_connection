@@ -3,4 +3,4 @@ venv/
 .idea/
 ProcurementsDB/Procurements.db
 BotSql/Token.txt
-BotSql/PostgreSqlApiIns/PostgreSQL_config.py
+BotSql/PostgreSqlApi/PostgreSQL_config.py

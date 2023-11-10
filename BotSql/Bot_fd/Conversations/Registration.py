@@ -1,5 +1,5 @@
 import datetime
-
+from PostgreSqlApi.PostgreSqlApi import SqlApi
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import (
     ConversationHandler,
@@ -24,7 +24,7 @@ class RegistrationConversation:
 
     def __init__(self, updater, dispatcher, logger, ex_student):
         self.ex_student = ex_student
-        self.ex_student.user_date_of_first_registration = datetime.datetime.now().strftime('%Y-%m-%d')  # 2023-11-05
+        self.ex_student.user_date_of_first_registration = None
         self.updater = updater
         self.dispatcher = dispatcher
         self.logger = logger
@@ -706,6 +706,11 @@ class RegistrationConversation:
             'Ассоциация выпускников ГУУ благодарит Вас, что поделились информацией о себе.\n'
             'Чтобы продолжить работу с ботом нажмите /start.',  # !
         )
+
+        self.ex_student.user_date_of_first_registration = datetime.datetime.now().strftime('%Y-%m-%d')  # 2023-11-05
+        sql = SqlApi()
+        sql.sql_insert_user_info(self.ex_student)
+        sql.connection_close()
 
         return ConversationHandler.END
 
