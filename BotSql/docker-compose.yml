@@ -1,29 +1,39 @@
-version: '3.5'
+version: '3.3'
 
 services:
   postgres:
     container_name: postgres_container
     image: postgres
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: qwerty
       PGDATA: /data/postgres
     volumes:
        - postgres:/data/postgres
     ports:
       - "5432:5432"
     networks:
-      - postgres
+      supernetwork:
+       ipv4_address: 172.20.0.5
     restart: unless-stopped
 
   bot:
-    build: Dockerfile
-    container_name: bot_container 
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bot_container
+    networks:
+      supernetwork:
+        ipv4_address: 172.20.0.6
+    depends_on:
+      - postgres
 
 
 networks:
-  postgres:
-    driver: bridge
+  supernetwork:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
 
 volumes:
     postgres:
