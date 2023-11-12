@@ -24,11 +24,11 @@ class RegistrationConversation:
         POSITION = range(12)
 
     def __init__(self, updater, dispatcher, logger):
-        self.ex_student = User()
-        self.ex_student.user_date_of_first_registration = None
         self.updater = updater
         self.dispatcher = dispatcher
         self.logger = logger
+        self.ex_student = User()
+        self.ex_student.user_date_of_first_registration = None
         self.USER_TRIES = 2
         self.SUCCESSFUL_INPUTS = 0
         # self.gender_checker = GenderChecker()
@@ -68,7 +68,9 @@ class RegistrationConversation:
         return self.PERSONAL_INFO_ACCEPTANCE
 
     def personal_data_acceptance(self, update, context):
-        if update.message.text == "/cancel":
+        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+            self.ex_student = User()
+            self.ex_student.user_date_of_first_registration = None
             self.USER_TRIES = 2
             self.SUCCESSFUL_INPUTS = 0
             return self.cancel(update, context)
@@ -112,7 +114,9 @@ class RegistrationConversation:
         return self.GENDER
 
     def reg_gender(self, update, context):
-        if update.message.text == "/cancel":
+        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+            self.ex_student = User()
+            self.ex_student.user_date_of_first_registration = None
             self.USER_TRIES = 2
             self.SUCCESSFUL_INPUTS = 0
             return self.cancel(update, context)
@@ -164,7 +168,9 @@ class RegistrationConversation:
         return self.SURNAME
 
     def reg_surname(self, update, context):
-        if update.message.text == "/cancel":
+        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+            self.ex_student = User()
+            self.ex_student.user_date_of_first_registration = None
             self.USER_TRIES = 2
             self.SUCCESSFUL_INPUTS = 0
             return self.cancel(update, context)
@@ -223,7 +229,9 @@ class RegistrationConversation:
         return self.NAME
 
     def reg_name(self, update, context):
-        if update.message.text == "/cancel":
+        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+            self.ex_student = User()
+            self.ex_student.user_date_of_first_registration = None
             self.USER_TRIES = 2
             self.SUCCESSFUL_INPUTS = 0
             return self.cancel(update, context)
@@ -278,7 +286,9 @@ class RegistrationConversation:
         return self.PATRONYMIC
 
     def reg_patronymic(self, update, context):
-        if update.message.text == "/cancel":
+        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+            self.ex_student = User()
+            self.ex_student.user_date_of_first_registration = None
             self.USER_TRIES = 2
             self.SUCCESSFUL_INPUTS = 0
             return self.cancel(update, context)
@@ -332,7 +342,9 @@ class RegistrationConversation:
         return self.EMAIL
 
     def reg_email(self, update, context):
-        if update.message.text == "/cancel":
+        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+            self.ex_student = User()
+            self.ex_student.user_date_of_first_registration = None
             self.USER_TRIES = 2
             self.SUCCESSFUL_INPUTS = 0
             return self.cancel(update, context)
@@ -386,7 +398,9 @@ class RegistrationConversation:
         return self.PHONE
 
     def reg_phone(self, update, context):
-        if update.message.text == "/cancel":
+        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+            self.ex_student = User()
+            self.ex_student.user_date_of_first_registration = None
             self.USER_TRIES = 2
             self.SUCCESSFUL_INPUTS = 0
             return self.cancel(update, context)
@@ -434,13 +448,15 @@ class RegistrationConversation:
 
         # Разговор
         update.message.reply_text(
-            'Укажите свой год рождения (в формате 01.01.1999):',
+            'Укажите год своего рождения (в формате 01.01.1999):',
         )
 
         return self.BIRTHDATE
 
     def reg_birthdate(self, update, context):
-        if update.message.text == "/cancel":
+        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+            self.ex_student = User()
+            self.ex_student.user_date_of_first_registration = None
             self.USER_TRIES = 2
             self.SUCCESSFUL_INPUTS = 0
             return self.cancel(update, context)
@@ -488,13 +504,15 @@ class RegistrationConversation:
 
         # Разговор
         update.message.reply_text(
-            'Укажите свой год окончания университета (в формате 4 цифр. Например: 1999):',  # !
+            'Укажите год окончания университета (в формате 4 цифр. Например: 1999):',  # !
         )
 
         return self.GRADDATE
 
     def reg_graddate(self, update, context):
-        if update.message.text == "/cancel":
+        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+            self.ex_student = User()
+            self.ex_student.user_date_of_first_registration = None
             self.USER_TRIES = 2
             self.SUCCESSFUL_INPUTS = 0
             return self.cancel(update, context)
@@ -548,7 +566,9 @@ class RegistrationConversation:
         return self.INSTITUTE
 
     def reg_institute(self, update, context):
-        if update.message.text == "/cancel":
+        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+            self.ex_student = User()
+            self.ex_student.user_date_of_first_registration = None
             self.USER_TRIES = 2
             self.SUCCESSFUL_INPUTS = 0
             return self.cancel(update, context)
@@ -596,13 +616,15 @@ class RegistrationConversation:
 
         # Разговор
         update.message.reply_text(
-            'Укажите, своего текущего работодателя, либо оставьте прочерк:',  # !
+            'Укажите своего текущего работодателя, либо оставьте прочерк:',  # !
         )
 
         return self.EMPLOYER
 
     def reg_employer(self, update, context):
-        if update.message.text == "/cancel":
+        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+            self.ex_student = User()
+            self.ex_student.user_date_of_first_registration = None
             self.USER_TRIES = 2
             self.SUCCESSFUL_INPUTS = 0
             return self.cancel(update, context)
@@ -650,13 +672,15 @@ class RegistrationConversation:
 
         # Разговор
         update.message.reply_text(
-            'Укажите, свою должность, либо оставьте прочерк:',  # !
+            'Укажите свою должность, либо оставьте прочерк:',  # !
         )
 
         return self.POSITION
 
     def reg_position(self, update, context):
-        if update.message.text == "/cancel":
+        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+            self.ex_student = User()
+            self.ex_student.user_date_of_first_registration = None
             self.USER_TRIES = 2
             self.SUCCESSFUL_INPUTS = 0
             return self.cancel(update, context)
@@ -712,7 +736,10 @@ class RegistrationConversation:
         sql_registration = SqlApiRegistration()
         sql_registration.sql_insert_user_info(self.ex_student)
         sql_registration.connection_close()
-        self.ex_student = None
+        self.ex_student = User()
+        self.ex_student.user_date_of_first_registration = None
+        self.USER_TRIES = 2
+        self.SUCCESSFUL_INPUTS = 0
 
         return ConversationHandler.END
 
@@ -744,9 +771,10 @@ class RegistrationConversation:
             reply_markup=ReplyKeyboardRemove()
         )
 
+        self.ex_student = User()
+        self.ex_student.user_date_of_first_registration = None
         self.USER_TRIES = 2
         self.SUCCESSFUL_INPUTS = 0
-        self.ex_student = None
         # Заканчиваем разговор.
         return ConversationHandler.END
 

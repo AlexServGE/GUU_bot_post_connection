@@ -42,6 +42,7 @@ class User:
         return f"Фамилия: {self.user_SURNAME}\n" \
                f"Имя: {self.user_NAME}\n" \
                f"Отчество: {self.user_PATRONYMIC}\n" \
+               f"Пол: {self.user_GENDER}\n" \
                f"Емейл: {self.user_EMAIL}\n" \
                f"Телефон: {self.user_PHONE}\n" \
                f"День рождения: {self.user_BIRTHDATE}\n" \

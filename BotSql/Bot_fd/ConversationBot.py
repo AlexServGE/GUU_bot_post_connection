@@ -20,8 +20,9 @@ class ConversationBot:
         self.updater = updater
         self.dispatcher = dispatcher
         self.logger = logger
-        self.registration_conversation = RegistrationConversation(self.updater, self.dispatcher, self.logger)
         self.change_profile_conversation = ChangeProfileConversation(self.updater, self.dispatcher, self.logger)
+        self.registration_conversation = RegistrationConversation(self.updater, self.dispatcher, self.logger)
+
 
     def start(self, update, context):
         reply_keyboard = [['Зарегистрироваться', 'Обновить', 'Удалить']]
@@ -95,27 +96,27 @@ class ConversationBot:
                 self.change_profile_conversation.CHANGE_PROFILE_ONE_FIELD: [
                     MessageHandler(Filters.text, self.change_profile_conversation.change_profile_one_field)],
                 self.change_profile_conversation.GENDER: [
-                    MessageHandler(Filters.text, self.change_profile_conversation.reg_gender)],
+                    MessageHandler(Filters.text, self.change_profile_conversation.change_gender)],
                 self.change_profile_conversation.SURNAME: [
-                    MessageHandler(Filters.text, self.change_profile_conversation.reg_surname)],
-                self.registration_conversation.NAME: [
-                    MessageHandler(Filters.text, self.registration_conversation.reg_name)],
-                self.registration_conversation.PATRONYMIC: [
-                    MessageHandler(Filters.text, self.registration_conversation.reg_patronymic)],
-                self.registration_conversation.EMAIL: [
-                    MessageHandler(Filters.text, self.registration_conversation.reg_email)],
-                self.registration_conversation.PHONE: [
-                    MessageHandler(Filters.text, self.registration_conversation.reg_phone)],
-                self.registration_conversation.BIRTHDATE: [
-                    MessageHandler(Filters.text, self.registration_conversation.reg_birthdate)],
-                self.registration_conversation.GRADDATE: [
-                    MessageHandler(Filters.text, self.registration_conversation.reg_graddate)],
-                self.registration_conversation.INSTITUTE: [
-                    MessageHandler(Filters.text, self.registration_conversation.reg_institute)],
-                self.registration_conversation.EMPLOYER: [
-                    MessageHandler(Filters.text, self.registration_conversation.reg_employer)],
-                self.registration_conversation.POSITION: [
-                    MessageHandler(Filters.text, self.registration_conversation.reg_position)],
+                    MessageHandler(Filters.text, self.change_profile_conversation.change_surname)],
+                self.change_profile_conversation.NAME: [
+                    MessageHandler(Filters.text, self.change_profile_conversation.change_name)],
+                self.change_profile_conversation.PATRONYMIC: [
+                    MessageHandler(Filters.text, self.change_profile_conversation.change_patronymic)],
+                self.change_profile_conversation.EMAIL: [
+                    MessageHandler(Filters.text, self.change_profile_conversation.change_email)],
+                self.change_profile_conversation.PHONE: [
+                    MessageHandler(Filters.text, self.change_profile_conversation.change_phone)],
+                self.change_profile_conversation.BIRTHDATE: [
+                    MessageHandler(Filters.text, self.change_profile_conversation.change_birthdate)],
+                self.change_profile_conversation.GRADDATE: [
+                    MessageHandler(Filters.text, self.change_profile_conversation.change_graddate)],
+                self.change_profile_conversation.INSTITUTE: [
+                    MessageHandler(Filters.text, self.change_profile_conversation.change_institute)],
+                self.change_profile_conversation.EMPLOYER: [
+                    MessageHandler(Filters.text, self.change_profile_conversation.change_employer)],
+                self.change_profile_conversation.POSITION: [
+                    MessageHandler(Filters.text, self.change_profile_conversation.change_position)],
             },
             # точка выхода из разговора
             fallbacks=[CommandHandler('cancel', self.registration_conversation.cancel)],  ##что-то другое нужно
