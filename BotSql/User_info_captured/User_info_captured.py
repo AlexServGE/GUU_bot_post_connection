@@ -21,15 +21,25 @@ class User:
         self.user_EMPLOYER = user_EMPLOYER
         self.user_POSITION = user_POSITION
 
+    def fill_user_fields_from_tuple(self, sql_tuple):
+        self.user_date_of_first_registration = sql_tuple[1]
+        self.user_telegram_nickname = sql_tuple[3]
+        self.user_PERSONAL_INFO_ACCEPTANCE = sql_tuple[4]
+        self.user_GENDER = sql_tuple[5]
+        self.user_SURNAME = sql_tuple[6]
+        self.user_NAME = sql_tuple[7]
+        self.user_PATRONYMIC = sql_tuple[8]
+        self.user_EMAIL = sql_tuple[9]
+        self.user_PHONE = sql_tuple[10]
+        self.user_BIRTHDATE = sql_tuple[11]
+        self.user_GRADDATE = sql_tuple[12]
+        self.user_INSTITUTE = sql_tuple[13]
+        self.user_EMPLOYER = sql_tuple[14]
+        self.user_POSITION = sql_tuple[15]
 
-    #На будущее: когда буду писать ветку обновления информации, необходимо добавить поле дата_последнего_обновления
+    # На будущее: когда буду писать ветку обновления информации, необходимо добавить поле дата_последнего_обновления
     def __str__(self):
-        return f"Дата регистрации: {self.user_date_of_first_registration}\n" \
-               f"Телеграм_id: {self.user_telegram_id}\n" \
-               f"Телеграм_ник: {self.user_telegram_nickname}\n" \
-               f"Подтверждение обработки ПД: {self.user_PERSONAL_INFO_ACCEPTANCE}\n" \
-               f"Пол: {self.user_GENDER}\n" \
-               f"Фамилия: {self.user_SURNAME}\n" \
+        return f"Фамилия: {self.user_SURNAME}\n" \
                f"Имя: {self.user_NAME}\n" \
                f"Отчество: {self.user_PATRONYMIC}\n" \
                f"Емейл: {self.user_EMAIL}\n" \

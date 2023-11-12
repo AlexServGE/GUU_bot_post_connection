@@ -1,9 +1,10 @@
 import datetime
-from PostgreSqlApi.PostgreSqlApi import SqlApi
+from PostgreSqlApi.PostgreSql_registration import SqlApiRegistration
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import (
     ConversationHandler,
 )
+from User_info_captured.User_info_captured import User
 
 from Bot_fd.Conversations.Checks.SurnameChecker import SurnameChecker
 from Bot_fd.Conversations.Checks.NameChecker import NameChecker
@@ -22,8 +23,8 @@ class RegistrationConversation:
     PERSONAL_INFO_ACCEPTANCE, GENDER, SURNAME, NAME, PATRONYMIC, EMAIL, PHONE, BIRTHDATE, GRADDATE, INSTITUTE, EMPLOYER, \
         POSITION = range(12)
 
-    def __init__(self, updater, dispatcher, logger, ex_student):
-        self.ex_student = ex_student
+    def __init__(self, updater, dispatcher, logger):
+        self.ex_student = User()
         self.ex_student.user_date_of_first_registration = None
         self.updater = updater
         self.dispatcher = dispatcher
@@ -708,9 +709,10 @@ class RegistrationConversation:
         )
 
         self.ex_student.user_date_of_first_registration = datetime.datetime.now().strftime('%Y-%m-%d')  # 2023-11-05
-        sql = SqlApi()
-        sql.sql_insert_user_info(self.ex_student)
-        sql.connection_close()
+        sql_registration = SqlApiRegistration()
+        sql_registration.sql_insert_user_info(self.ex_student)
+        sql_registration.connection_close()
+        self.ex_student = None
 
         return ConversationHandler.END
 
@@ -744,6 +746,7 @@ class RegistrationConversation:
 
         self.USER_TRIES = 2
         self.SUCCESSFUL_INPUTS = 0
+        self.ex_student = None
         # Заканчиваем разговор.
         return ConversationHandler.END
 

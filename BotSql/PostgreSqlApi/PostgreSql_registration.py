@@ -4,7 +4,7 @@ from PostgreSqlApi.PostgreSQL_config import host, user, password, db_name, port
 from datetime import datetime, timedelta
 
 
-class SqlApi:
+class SqlApiRegistration:
 
     def __init__(self):
         self.connection = None

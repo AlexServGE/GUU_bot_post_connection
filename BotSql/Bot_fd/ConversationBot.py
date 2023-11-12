@@ -1,6 +1,6 @@
 import logging
 
-from User_info_captured.User_info_captured import User
+
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, Update
 from telegram.ext import (
     Updater,
@@ -10,17 +10,18 @@ from telegram.ext import (
     ConversationHandler,
 )
 from .Conversations.Registration import RegistrationConversation
+from .Conversations.Change_profile import ChangeProfileConversation
 
 
 class ConversationBot:
 
     def __init__(self, updater, dispatcher, logger):
-        self.ex_student = User()
+
         self.updater = updater
         self.dispatcher = dispatcher
         self.logger = logger
-        self.registration_conversation = RegistrationConversation(self.updater, self.dispatcher, self.logger,
-                                                                  self.ex_student)
+        self.registration_conversation = RegistrationConversation(self.updater, self.dispatcher, self.logger)
+        self.change_profile_conversation = ChangeProfileConversation(self.updater, self.dispatcher, self.logger)
 
     def start(self, update, context):
         reply_keyboard = [['Зарегистрироваться', 'Обновить', 'Удалить']]
@@ -85,8 +86,44 @@ class ConversationBot:
             fallbacks=[CommandHandler('cancel', self.registration_conversation.cancel)],  ##что-то другое нужно
         )
 
+        conv_handler_change_profile = ConversationHandler(  # здесь строится логика разговора
+            # точка входа в разговор
+            entry_points=[MessageHandler(Filters.regex('^(Обновить|обновить)$'),  #Обновить|обновить соответствует выбору в методе start
+                                         self.change_profile_conversation.start_change_profile)],
+            # этапы разговора, каждый со своим списком обработчиков сообщений
+            states={
+                self.change_profile_conversation.CHANGE_PROFILE_ONE_FIELD: [
+                    MessageHandler(Filters.text, self.change_profile_conversation.change_profile_one_field)],
+                self.change_profile_conversation.GENDER: [
+                    MessageHandler(Filters.text, self.change_profile_conversation.reg_gender)],
+                self.change_profile_conversation.SURNAME: [
+                    MessageHandler(Filters.text, self.change_profile_conversation.reg_surname)],
+                self.registration_conversation.NAME: [
+                    MessageHandler(Filters.text, self.registration_conversation.reg_name)],
+                self.registration_conversation.PATRONYMIC: [
+                    MessageHandler(Filters.text, self.registration_conversation.reg_patronymic)],
+                self.registration_conversation.EMAIL: [
+                    MessageHandler(Filters.text, self.registration_conversation.reg_email)],
+                self.registration_conversation.PHONE: [
+                    MessageHandler(Filters.text, self.registration_conversation.reg_phone)],
+                self.registration_conversation.BIRTHDATE: [
+                    MessageHandler(Filters.text, self.registration_conversation.reg_birthdate)],
+                self.registration_conversation.GRADDATE: [
+                    MessageHandler(Filters.text, self.registration_conversation.reg_graddate)],
+                self.registration_conversation.INSTITUTE: [
+                    MessageHandler(Filters.text, self.registration_conversation.reg_institute)],
+                self.registration_conversation.EMPLOYER: [
+                    MessageHandler(Filters.text, self.registration_conversation.reg_employer)],
+                self.registration_conversation.POSITION: [
+                    MessageHandler(Filters.text, self.registration_conversation.reg_position)],
+            },
+            # точка выхода из разговора
+            fallbacks=[CommandHandler('cancel', self.registration_conversation.cancel)],  ##что-то другое нужно
+        )
+
         # Добавляем обработчик разговоров `conv_handler`
         self.dispatcher.add_handler(conv_handler_registration)
+        self.dispatcher.add_handler(conv_handler_change_profile)
         self.dispatcher.add_handler(CommandHandler("start", self.start))
 
 
