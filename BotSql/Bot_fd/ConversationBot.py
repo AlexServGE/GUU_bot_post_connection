@@ -9,19 +9,20 @@ from telegram.ext import (
     Filters,
     ConversationHandler,
 )
-from .Conversations.Registration import RegistrationConversation
-from .Conversations.Change_profile import ChangeProfileConversation
+from Bot_fd.Conversations.Registration import RegistrationConversation
+from Bot_fd.Conversations.Change_profile import ChangeProfileConversation
+from Bot_fd.Conversations.Delete_profile import DeleteProfileConversation
 
 
 class ConversationBot:
 
     def __init__(self, updater, dispatcher, logger):
-
         self.updater = updater
         self.dispatcher = dispatcher
         self.logger = logger
-        self.change_profile_conversation = ChangeProfileConversation(self.updater, self.dispatcher, self.logger)
         self.registration_conversation = RegistrationConversation(self.updater, self.dispatcher, self.logger)
+        self.change_profile_conversation = ChangeProfileConversation(self.updater, self.dispatcher, self.logger)
+        self.delete_profile_conversation = DeleteProfileConversation(self.updater, self.dispatcher, self.logger)
 
 
     def start(self, update, context):
@@ -31,26 +32,28 @@ class ConversationBot:
         # Начинаем разговор с вопроса
         update.message.reply_text(
             f'Доброго времени суток!\n'
-            f'<Тестовая версия. Может быть отключена в любой момент>\n'
             f'Вас приветствует официальный бот Ассоциации выпускников Государственного Университета Управления.\n'
-            f'Я здесь, чтобы помочь зарегистрироваться/обновить/удалить контактную информацию о Вас, которая позволит Ассоциации выпускников оставаться на связи с Вами.\n'
-            f'Команда /cancel, чтобы прекратить разговор.\n'
-            f'Уточните, что бы Вы хотели осуществить, выбрав необходимую Вам опцию:',
+            f'Мы здесь, чтобы помочь зарегистрировать/обновить/удалить контактную информацию о Вас, которая позволит Ассоциации выпускников оставаться на связи с Вами.\n'
+            f'Команда /cancel, чтобы прекратить разговор.',)
+        update.message.reply_text(
+            f'Уточните, пожалуйста, что бы Вы хотели сделать, выбрав нужную опцию на появившейся клавиатуре⌨:',
             reply_markup=markup_key, )
-
         # определяем пользователя
         user = update.message.from_user
         # Пишем в журнал ответ пользователя
         self.logger.info("Пользователь %s - %s", user.first_name, update.message.text)
 
-        # if update.message.text == "Зарегистрировать":
-        #     # Здесь важно установить проверку по telegram id есть ли уже такой пользователь в базе данных
-        #     return RegistrationConversation()
-        # elif update.message.text == "Обновить":
-        #     return update.message.reply_text("Данная секция бота находится в разработке")
-        # elif update.message.text == "Удалить":
-        #     return update.message.reply_text("Данная секция бота находится в разработке")
-
+    def cancel(self, update, context):
+        # определяем пользователя
+        user = update.message.from_user
+        # Пишем в журнал о том, что пользователь не разговорчивый
+        self.logger.info("Пользователь %s отменил разговор.", user.first_name)
+        # Отвечаем на отказ поговорить
+        update.message.reply_text(
+            'По Вашему запросу разговор прекращён. '
+            'Чтобы продолжить работу с ботом нажмите /start.',
+            reply_markup=ReplyKeyboardRemove()
+        )
     def bot_session(self):
         conv_handler_registration = ConversationHandler(  # здесь строится логика разговора
             # точка входа в разговор
@@ -122,13 +125,25 @@ class ConversationBot:
             fallbacks=[CommandHandler('cancel', self.registration_conversation.cancel)],  ##что-то другое нужно
         )
 
+        conv_handler_delete_profile = ConversationHandler(  # здесь строится логика разговора
+            # точка входа в разговор
+            entry_points=[MessageHandler(Filters.regex('^(Удалить|удалить)$'),  #Удалить|удалить соответствует выбору в методе start
+                                         self.delete_profile_conversation.start_delete_profile)],
+            # этапы разговора, каждый со своим списком обработчиков сообщений
+            states={
+                self.delete_profile_conversation.DELETE_PROFILE: [
+                    MessageHandler(Filters.text, self.delete_profile_conversation.delete_profile)],
+            },
+            # точка выхода из разговора
+            fallbacks=[CommandHandler('cancel', self.registration_conversation.cancel)],  ##что-то другое нужно
+        )
+
         # Добавляем обработчик разговоров `conv_handler`
         self.dispatcher.add_handler(conv_handler_registration)
         self.dispatcher.add_handler(conv_handler_change_profile)
+        self.dispatcher.add_handler(conv_handler_delete_profile)
         self.dispatcher.add_handler(CommandHandler("start", self.start))
-
-
-
+        self.dispatcher.add_handler(CommandHandler("cancel", self.cancel))
 
 if __name__ == '__main__':
     pass

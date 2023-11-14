@@ -46,26 +46,47 @@ class RegistrationConversation:
     # Обрабатываем ответ по категории лекарственных препаратов
 
     def start_registration(self, update, context):
-        # Список кнопок для ответа
-        reply_keyboard = [['Подтверждаю'], ['Не подтверждаю']]
-        markup_key = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
-        # Разговор
-        update.message.reply_text(
-            f'Перечень персональных данных, на обработку которых дается согласие:\n'
-            f'1) Пол\n'
-            f'2) Фамилия\n'
-            f'3) Имя\n'
-            f'4) Отчество\n'
-            f'5) Электронный адрес\n'
-            f'6) Контактный телефон\n'
-            f'7) Дата рождения\n'
-            f'8) Дата окончания университета\n'
-            f'9) Структурное подразделение\n'
-            f'10) Работодатель\n'
-            f'11) Должность',
-            reply_markup=markup_key, )
-
-        return self.PERSONAL_INFO_ACCEPTANCE
+        # определяем пользователя, в случае если пользователь ввел неверные данные на следующем этапе
+        user = update.message.from_user
+        # Пишем в журнал ответ пользователя,
+        self.logger.info("Пользователь %s - %s", user.first_name, update.message.text)
+        # определяем telegram.id пользователя
+        self.ex_student.user_telegram_id = user.id
+        sql_registration = SqlApiRegistration()
+        user_sql_info_tuple = sql_registration.sql_select_all_user_info(self.ex_student.user_telegram_id)
+        sql_registration.connection_close()
+        if user_sql_info_tuple:
+            self.ex_student.fill_user_fields_from_tuple(user_sql_info_tuple)
+            update.message.reply_text(
+                f'Ваш профиль уже зарегистрирован в Ассоциации выпускников ГУУ.\n\n'
+                f'Нам удалось найти следующую информацию о Вас:\n'
+                f'{self.ex_student}\n',
+            )
+            update.message.reply_text(
+                f'Чтобы продолжить работу с ботом, нажмите /start.',
+            )
+            self.ex_student = User()
+            return ConversationHandler.END
+        else:
+            # Список кнопок для ответа
+            reply_keyboard = [['Подтверждаю'], ['Не подтверждаю']]
+            markup_key = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
+            # Разговор
+            update.message.reply_text(
+                f'Перечень персональных данных, на обработку которых дается согласие:\n'
+                f'1) Пол\n'
+                f'2) Фамилия\n'
+                f'3) Имя\n'
+                f'4) Отчество\n'
+                f'5) Электронный адрес\n'
+                f'6) Контактный телефон\n'
+                f'7) Дата рождения\n'
+                f'8) Дата окончания университета\n'
+                f'9) Структурное подразделение\n'
+                f'10) Работодатель\n'
+                f'11) Должность',
+                reply_markup=markup_key, )
+            return self.PERSONAL_INFO_ACCEPTANCE
 
     def personal_data_acceptance(self, update, context):
         if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
@@ -89,7 +110,6 @@ class RegistrationConversation:
                 # Пишем в журнал ответ пользователя
                 self.logger.info("Пользователь %s - %s", user.first_name, update.message.text)
                 # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
-                self.ex_student.user_telegram_id = user.id
                 self.ex_student.user_telegram_nickname = user.first_name
                 user_pdata_acceptance = update.message.text.capitalize()
                 self.ex_student.user_PERSONAL_INFO_ACCEPTANCE = user_pdata_acceptance
@@ -765,8 +785,7 @@ class RegistrationConversation:
         self.logger.info("Пользователь %s отменил разговор.", user.first_name)
         # Отвечаем на отказ поговорить
         update.message.reply_text(
-            'Моё дело предложить - Ваше отказаться. '
-            'Будет скучно - пишите.'
+            'По Вашему запросу разговор прекращён. '
             'Чтобы продолжить работу с ботом нажмите /start.',
             reply_markup=ReplyKeyboardRemove()
         )

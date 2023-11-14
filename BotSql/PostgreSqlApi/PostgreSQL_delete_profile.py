@@ -1,10 +1,8 @@
 import psycopg2
-
 from PostgreSqlApi.PostgreSQL_config import host, user, password, db_name, port
-from datetime import datetime, timedelta
 
 
-class SqlApiRegistration:
+class SqlApiDeleteProfile:
 
     def __init__(self):
         self.connection = None
@@ -48,44 +46,13 @@ class SqlApiRegistration:
                 self.connection.close()
                 print(f"[INFO] PostgreSQL connection closed")
 
-    def sql_insert_user_info(self, user):
+    def sql_delete_user(self, user_telegram_id):
         try:
             with self.connection.cursor() as cursor:
-                cursor.execute("""
-                    INSERT INTO graduates (
-                    Date_of_registration,
-                    Telegram_id,
-                    Telegram_nickname,
-                    Personal_info_acceptance,
-                    Gender,
-                    Surname,
-                    Name,
-                    Patronymic,
-                    Email,
-                    Phone,
-                    Birthdate,
-                    Graduation_date,
-                    Institute,
-                    Employer,
-                    Position)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s); 
-                    """, (user.user_date_of_first_registration,
-                          user.user_telegram_id,
-                          user.user_telegram_nickname,
-                          user.user_PERSONAL_INFO_ACCEPTANCE,
-                          user.user_GENDER,
-                          user.user_SURNAME,
-                          user.user_NAME,
-                          user.user_PATRONYMIC,
-                          user.user_EMAIL,
-                          user.user_PHONE,
-                          user.user_BIRTHDATE,
-                          user.user_GRADDATE,
-                          user.user_INSTITUTE,
-                          user.user_EMPLOYER,
-                          user.user_POSITION))
+                cursor.execute(f"""
+                    DELETE FROM graduates WHERE Telegram_id = %s; 
+                    """, (user_telegram_id,))
                 # connection.commit()
-                print(f"[INFO] Following data was successfully inserted about user:\n {user}")
         except Exception as _ex:
             print(f"[INFO] Error while working with PostgreSQL - {_ex}")
             if self.connection:

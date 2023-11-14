@@ -1,4 +1,3 @@
-import datetime
 from PostgreSqlApi.PostgreSQL_change_profile import SqlApiChangeProfile
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import (
@@ -57,7 +56,7 @@ class ChangeProfileConversation:
         sql_change_profile.connection_close()
         if not user_sql_info_tuple:
             update.message.reply_text(
-                f'К сожалению, нам не удалось найти информацию о Вашем профиле в Ассоции выпускников ГУУ.\n' \
+                f'К сожалению, нам не удалось найти информацию о Вашем профиле в Ассоциации выпускников ГУУ.\n' \
                 f'Вы можете пройти регистрацию. Для этого нажмите /start.',
             )
             return ConversationHandler.END
@@ -75,7 +74,7 @@ class ChangeProfileConversation:
                 f'{self.ex_student}', )
             # Разговор
             update.message.reply_text(
-                f'Укажите поле, которое хотели бы обновить о себе.',
+                f'Укажите поле, которое хотели бы обновить о себе. Команда /cancel, чтобы прекратить разговор.',
                 reply_markup=markup_key, )
             return self.CHANGE_PROFILE_ONE_FIELD
 
@@ -743,8 +742,7 @@ class ChangeProfileConversation:
         self.logger.info("Пользователь %s отменил разговор.", user.first_name)
         # Отвечаем на отказ поговорить
         update.message.reply_text(
-            'Моё дело предложить - Ваше отказаться. '
-            'Будет скучно - пишите.'
+            'По Вашему запросу разговор прекращён. '
             'Чтобы продолжить работу с ботом нажмите /start.',
             reply_markup=ReplyKeyboardRemove()
         )
