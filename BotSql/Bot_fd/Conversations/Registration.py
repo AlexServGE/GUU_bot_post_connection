@@ -89,7 +89,7 @@ class RegistrationConversation:
             return self.PERSONAL_INFO_ACCEPTANCE
 
     def personal_data_acceptance(self, update, context):
-        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+        if update.message.text == "/cancel":  # почему-то /cancel не срабатывает в handler
             self.ex_student = User()
             self.ex_student.user_date_of_first_registration = None
             self.USER_TRIES = 2
@@ -134,7 +134,7 @@ class RegistrationConversation:
         return self.GENDER
 
     def reg_gender(self, update, context):
-        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+        if update.message.text == "/cancel":  # почему-то /cancel не срабатывает в handler
             self.ex_student = User()
             self.ex_student.user_date_of_first_registration = None
             self.USER_TRIES = 2
@@ -188,7 +188,7 @@ class RegistrationConversation:
         return self.SURNAME
 
     def reg_surname(self, update, context):
-        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+        if update.message.text == "/cancel":  # почему-то /cancel не срабатывает в handler
             self.ex_student = User()
             self.ex_student.user_date_of_first_registration = None
             self.USER_TRIES = 2
@@ -249,7 +249,7 @@ class RegistrationConversation:
         return self.NAME
 
     def reg_name(self, update, context):
-        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+        if update.message.text == "/cancel":  # почему-то /cancel не срабатывает в handler
             self.ex_student = User()
             self.ex_student.user_date_of_first_registration = None
             self.USER_TRIES = 2
@@ -306,7 +306,7 @@ class RegistrationConversation:
         return self.PATRONYMIC
 
     def reg_patronymic(self, update, context):
-        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+        if update.message.text == "/cancel":  # почему-то /cancel не срабатывает в handler
             self.ex_student = User()
             self.ex_student.user_date_of_first_registration = None
             self.USER_TRIES = 2
@@ -362,7 +362,7 @@ class RegistrationConversation:
         return self.EMAIL
 
     def reg_email(self, update, context):
-        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+        if update.message.text == "/cancel":  # почему-то /cancel не срабатывает в handler
             self.ex_student = User()
             self.ex_student.user_date_of_first_registration = None
             self.USER_TRIES = 2
@@ -418,7 +418,7 @@ class RegistrationConversation:
         return self.PHONE
 
     def reg_phone(self, update, context):
-        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+        if update.message.text == "/cancel":  # почему-то /cancel не срабатывает в handler
             self.ex_student = User()
             self.ex_student.user_date_of_first_registration = None
             self.USER_TRIES = 2
@@ -474,7 +474,7 @@ class RegistrationConversation:
         return self.BIRTHDATE
 
     def reg_birthdate(self, update, context):
-        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+        if update.message.text == "/cancel":  # почему-то /cancel не срабатывает в handler
             self.ex_student = User()
             self.ex_student.user_date_of_first_registration = None
             self.USER_TRIES = 2
@@ -530,7 +530,7 @@ class RegistrationConversation:
         return self.GRADDATE
 
     def reg_graddate(self, update, context):
-        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+        if update.message.text == "/cancel":  # почему-то /cancel не срабатывает в handler
             self.ex_student = User()
             self.ex_student.user_date_of_first_registration = None
             self.USER_TRIES = 2
@@ -586,7 +586,7 @@ class RegistrationConversation:
         return self.INSTITUTE
 
     def reg_institute(self, update, context):
-        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+        if update.message.text == "/cancel":  # почему-то /cancel не срабатывает в handler
             self.ex_student = User()
             self.ex_student.user_date_of_first_registration = None
             self.USER_TRIES = 2
@@ -642,7 +642,7 @@ class RegistrationConversation:
         return self.EMPLOYER
 
     def reg_employer(self, update, context):
-        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+        if update.message.text == "/cancel":  # почему-то /cancel не срабатывает в handler
             self.ex_student = User()
             self.ex_student.user_date_of_first_registration = None
             self.USER_TRIES = 2
@@ -698,7 +698,7 @@ class RegistrationConversation:
         return self.POSITION
 
     def reg_position(self, update, context):
-        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+        if update.message.text == "/cancel":  # почему-то /cancel не срабатывает в handler
             self.ex_student = User()
             self.ex_student.user_date_of_first_registration = None
             self.USER_TRIES = 2
@@ -753,8 +753,20 @@ class RegistrationConversation:
         )
 
         self.ex_student.user_date_of_first_registration = datetime.datetime.now().strftime('%Y-%m-%d')  # 2023-11-05
-
         self.sql_registration.sql_insert_user_info(self.ex_student)
+        user_sql_info_tuple = self.sql_registration.sql_select_all_user_info(self.ex_student.user_telegram_id)
+        if user_sql_info_tuple:
+            # Разговор
+            update.message.reply_text(
+                'Ассоциация выпускников ГУУ благодарит Вас, что поделились информацией о себе.\n'
+                'Чтобы продолжить работу с ботом нажмите /start.',  # !
+            )
+        else:
+            update.message.reply_text(
+                f'К сожалению, нам не удалось зарегистрировать Вас в Ассоциации выпускников ГУУ из-за технической ошибки.\n'
+                f'Обратитесь, пожалуйста, напрямую в Ассоциацию выпускников ГУУ '
+                f'по телефону 8 (495) 377-89-14 (1410).\n'
+                f'Чтобы продолжить работу с ботом нажмите /start.', )
         self.ex_student = User()
         self.ex_student.user_date_of_first_registration = None
         self.USER_TRIES = 2
