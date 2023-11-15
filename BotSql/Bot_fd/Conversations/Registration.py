@@ -27,6 +27,7 @@ class RegistrationConversation:
         self.updater = updater
         self.dispatcher = dispatcher
         self.logger = logger
+        self.sql_registration = SqlApiRegistration()
         self.ex_student = User()
         self.ex_student.user_date_of_first_registration = None
         self.USER_TRIES = 2
@@ -52,9 +53,8 @@ class RegistrationConversation:
         self.logger.info("Пользователь %s - %s", user.first_name, update.message.text)
         # определяем telegram.id пользователя
         self.ex_student.user_telegram_id = user.id
-        sql_registration = SqlApiRegistration()
-        user_sql_info_tuple = sql_registration.sql_select_all_user_info(self.ex_student.user_telegram_id)
-        sql_registration.connection_close()
+        # Обращаемся к бд, чтобы узнать зарегистрирован ли уже обращающийся за регистрацией пользователь
+        user_sql_info_tuple = self.sql_registration.sql_select_all_user_info(self.ex_student.user_telegram_id)
         if user_sql_info_tuple:
             self.ex_student.fill_user_fields_from_tuple(user_sql_info_tuple)
             update.message.reply_text(
@@ -468,7 +468,7 @@ class RegistrationConversation:
 
         # Разговор
         update.message.reply_text(
-            'Укажите год своего рождения (в формате 01.01.1999):',
+            'Укажите год своего рождения (в формате: 01.01.1999):',
         )
 
         return self.BIRTHDATE
@@ -524,7 +524,7 @@ class RegistrationConversation:
 
         # Разговор
         update.message.reply_text(
-            'Укажите год окончания университета (в формате 4 цифр. Например: 1999):',  # !
+            'Укажите год окончания университета (в формате: 1999):',  # !
         )
 
         return self.GRADDATE
@@ -580,7 +580,7 @@ class RegistrationConversation:
 
         # Разговор
         update.message.reply_text(
-            'Укажите, какое структурное подразделение Вы оканчивали:',  # !
+            'Укажите, какой институт/направление Вы оканчивали:',  # !
         )
 
         return self.INSTITUTE
@@ -753,9 +753,8 @@ class RegistrationConversation:
         )
 
         self.ex_student.user_date_of_first_registration = datetime.datetime.now().strftime('%Y-%m-%d')  # 2023-11-05
-        sql_registration = SqlApiRegistration()
-        sql_registration.sql_insert_user_info(self.ex_student)
-        sql_registration.connection_close()
+
+        self.sql_registration.sql_insert_user_info(self.ex_student)
         self.ex_student = User()
         self.ex_student.user_date_of_first_registration = None
         self.USER_TRIES = 2

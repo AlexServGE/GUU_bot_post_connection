@@ -7,7 +7,7 @@ class SurnameChecker:
         if not self.isUserInputLettersOnly(user_input):
             error_msg_total += "Фамилия: Допустимыми символами являются только буквы из кириллицы.\n"
         if not self.isUserInputTenLetters(user_input):
-            error_msg_total += "Фамилия: Допустимый размер данных равен не менее 2 и не более 10 символов.\n"
+            error_msg_total += f"Фамилия: Допустимый размер данных равен не менее 2 и не более 10 символов (Вы ввели - {len(user_input)}.\n"
         if error_msg_total != "":
             return error_msg_total
         else:

@@ -7,7 +7,7 @@ class GraddateChecker:
         if not user_input.isdigit():
             error_msg_total += "Год окончания: Должен содержать только цифры.\n"
         if len(user_input) != 4:
-            error_msg_total += "Год окончания: Должен содержать 4 символа.\n"
+            error_msg_total += f"Год окончания: Должен содержать 4 символа (Вы ввели - {len(user_input)}.\n"
         if error_msg_total != "":
             return error_msg_total
         else:

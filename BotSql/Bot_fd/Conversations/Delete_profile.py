@@ -15,6 +15,7 @@ class DeleteProfileConversation:
         self.updater = updater
         self.dispatcher = dispatcher
         self.logger = logger
+        self.sql_delete_profile = SqlApiDeleteProfile()
         self.ex_student = User()
 
     def start_delete_profile(self, update, context):
@@ -25,9 +26,7 @@ class DeleteProfileConversation:
         # определяем telegram.id пользователя
         self.ex_student.user_telegram_id = user.id
         # подключаемся к бд, чтобы проверить/найти выпускника
-        sql_delete_profile = SqlApiDeleteProfile()
-        user_sql_info_tuple = sql_delete_profile.sql_select_all_user_info(self.ex_student.user_telegram_id)
-        sql_delete_profile.connection_close()
+        user_sql_info_tuple = self.sql_delete_profile.sql_select_all_user_info(self.ex_student.user_telegram_id)
         if not user_sql_info_tuple:
             update.message.reply_text(
                 f'Ваш профиль не зарегистрирован в Ассоциации выпускников ГУУ.\n' \
@@ -58,12 +57,8 @@ class DeleteProfileConversation:
         self.logger.info("Пользователь %s - %s", user.first_name, update.message.text)
         user_reply = update.message.text
         if user_reply == 'Да, прошу удалить мой профиль':
-            sql_delete_profile = SqlApiDeleteProfile()
-            sql_delete_profile.sql_delete_user(self.ex_student.user_telegram_id)
-            sql_delete_profile.connection_close()
-            sql_delete_profile = SqlApiDeleteProfile()
-            user_sql_info_tuple = sql_delete_profile.sql_select_all_user_info(self.ex_student.user_telegram_id)
-            sql_delete_profile.connection_close()
+            self.sql_delete_profile.sql_delete_user(self.ex_student.user_telegram_id)
+            user_sql_info_tuple = self.sql_delete_profile.sql_select_all_user_info(self.ex_student.user_telegram_id)
             if not user_sql_info_tuple:
                 update.message.reply_text(
                     f'Процедура удаления Вашего профиля прошла успешно. '

@@ -27,6 +27,7 @@ class ChangeProfileConversation:
         self.updater = updater
         self.dispatcher = dispatcher
         self.logger = logger
+        self.sql_change_profile = SqlApiChangeProfile()
         self.ex_student = User()
         self.user_selected_field = None
         self.USER_TRIES = 2
@@ -51,9 +52,7 @@ class ChangeProfileConversation:
         # определяем telegram.id пользователя
         self.ex_student.user_telegram_id = user.id
         # подключаемся к бд, чтобы проверить/найти выпускника
-        sql_change_profile = SqlApiChangeProfile()
-        user_sql_info_tuple = sql_change_profile.sql_select_all_user_info(self.ex_student.user_telegram_id)
-        sql_change_profile.connection_close()
+        user_sql_info_tuple = self.sql_change_profile.sql_select_all_user_info(self.ex_student.user_telegram_id)
         if not user_sql_info_tuple:
             update.message.reply_text(
                 f'К сожалению, нам не удалось найти информацию о Вашем профиле в Ассоциации выпускников ГУУ.\n' \
@@ -133,19 +132,19 @@ class ChangeProfileConversation:
         elif self.user_selected_field == 'День рождения':
             self.INPUTS = 1
             update.message.reply_text(
-                f'Укажите год своего рождения (в формате 01.01.1999):',
+                f'Укажите год своего рождения (в формате: 01.01.1999):',
             )
             return self.BIRTHDATE
         elif self.user_selected_field == 'Год выпуска':
             self.INPUTS = 1
             update.message.reply_text(
-                f'Укажите год окончания университета (в формате 4 цифр. Например: 1999):',
+                f'Укажите год окончания университета (в формате: 1999):',
             )
             return self.GRADDATE
         elif self.user_selected_field == 'Институт':
             self.INPUTS = 1
             update.message.reply_text(
-                f'Укажите, какое структурное подразделение Вы оканчивали:',
+                f'Укажите, какой институт/направление Вы оканчивали:',
             )
             return self.INSTITUTE
         elif self.user_selected_field == 'Работодатель':
@@ -199,9 +198,7 @@ class ChangeProfileConversation:
             # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
             user_attrib_to_update = update.message.text.capitalize()
             # подключаемся к бд, чтобы проверить/найти выпускника
-            sql_change_profile = SqlApiChangeProfile()
-            sql_change_profile.sql_update_user_info("Gender", user_attrib_to_update, self.ex_student.user_telegram_id)
-            sql_change_profile.connection_close()
+            self.sql_change_profile.sql_update_user_info("Gender", user_attrib_to_update, self.ex_student.user_telegram_id)
             update.message.reply_text(
                 f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.'
             )
@@ -251,9 +248,7 @@ class ChangeProfileConversation:
             # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
             user_attrib_to_update = update.message.text.capitalize()
             # подключаемся к бд, чтобы проверить/найти выпускника
-            sql_change_profile = SqlApiChangeProfile()
-            sql_change_profile.sql_update_user_info("Surname", user_attrib_to_update, self.ex_student.user_telegram_id)
-            sql_change_profile.connection_close()
+            self.sql_change_profile.sql_update_user_info("Surname", user_attrib_to_update, self.ex_student.user_telegram_id)
             update.message.reply_text(
                 f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.'
             )
@@ -303,9 +298,7 @@ class ChangeProfileConversation:
             # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
             user_attrib_to_update = update.message.text.capitalize()
             # подключаемся к бд, чтобы проверить/найти выпускника
-            sql_change_profile = SqlApiChangeProfile()
-            sql_change_profile.sql_update_user_info("Name", user_attrib_to_update, self.ex_student.user_telegram_id)
-            sql_change_profile.connection_close()
+            self.sql_change_profile.sql_update_user_info("Name", user_attrib_to_update, self.ex_student.user_telegram_id)
             update.message.reply_text(
                 f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.'
             )
@@ -355,10 +348,8 @@ class ChangeProfileConversation:
             # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
             user_attrib_to_update = update.message.text.capitalize()
             # подключаемся к бд, чтобы проверить/найти выпускника
-            sql_change_profile = SqlApiChangeProfile()
-            sql_change_profile.sql_update_user_info("Patronymic", user_attrib_to_update,
+            self.sql_change_profile.sql_update_user_info("Patronymic", user_attrib_to_update,
                                                     self.ex_student.user_telegram_id)
-            sql_change_profile.connection_close()
             update.message.reply_text(
                 f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.'
             )
@@ -408,9 +399,7 @@ class ChangeProfileConversation:
             # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
             user_attrib_to_update = update.message.text.capitalize()
             # подключаемся к бд, чтобы проверить/найти выпускника
-            sql_change_profile = SqlApiChangeProfile()
-            sql_change_profile.sql_update_user_info("Email", user_attrib_to_update, self.ex_student.user_telegram_id)
-            sql_change_profile.connection_close()
+            self.sql_change_profile.sql_update_user_info("Email", user_attrib_to_update, self.ex_student.user_telegram_id)
             update.message.reply_text(
                 f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.'
             )
@@ -460,9 +449,7 @@ class ChangeProfileConversation:
             # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
             user_attrib_to_update = update.message.text.capitalize()
             # подключаемся к бд, чтобы проверить/найти выпускника
-            sql_change_profile = SqlApiChangeProfile()
-            sql_change_profile.sql_update_user_info("Phone", user_attrib_to_update, self.ex_student.user_telegram_id)
-            sql_change_profile.connection_close()
+            self.sql_change_profile.sql_update_user_info("Phone", user_attrib_to_update, self.ex_student.user_telegram_id)
             update.message.reply_text(
                 f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.'
             )
@@ -512,10 +499,8 @@ class ChangeProfileConversation:
             # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
             user_attrib_to_update = update.message.text.capitalize()
             # подключаемся к бд, чтобы проверить/найти выпускника
-            sql_change_profile = SqlApiChangeProfile()
-            sql_change_profile.sql_update_user_info("Birthdate", user_attrib_to_update,
+            self.sql_change_profile.sql_update_user_info("Birthdate", user_attrib_to_update,
                                                     self.ex_student.user_telegram_id)
-            sql_change_profile.connection_close()
             update.message.reply_text(
                 f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.'
             )
@@ -565,10 +550,8 @@ class ChangeProfileConversation:
             # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
             user_attrib_to_update = update.message.text.capitalize()
             # подключаемся к бд, чтобы проверить/найти выпускника
-            sql_change_profile = SqlApiChangeProfile()
-            sql_change_profile.sql_update_user_info("Graduation_date", user_attrib_to_update,
+            self.sql_change_profile.sql_update_user_info("Graduation_date", user_attrib_to_update,
                                                     self.ex_student.user_telegram_id)
-            sql_change_profile.connection_close()
             update.message.reply_text(
                 f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.'
             )
@@ -618,10 +601,8 @@ class ChangeProfileConversation:
             # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
             user_attrib_to_update = update.message.text.capitalize()
             # подключаемся к бд, чтобы проверить/найти выпускника
-            sql_change_profile = SqlApiChangeProfile()
-            sql_change_profile.sql_update_user_info("Institute", user_attrib_to_update,
+            self.sql_change_profile.sql_update_user_info("Institute", user_attrib_to_update,
                                                     self.ex_student.user_telegram_id)
-            sql_change_profile.connection_close()
             update.message.reply_text(
                 f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.'
             )
@@ -671,9 +652,7 @@ class ChangeProfileConversation:
             # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
             user_attrib_to_update = update.message.text.capitalize()
             # подключаемся к бд, чтобы проверить/найти выпускника
-            sql_change_profile = SqlApiChangeProfile()
-            sql_change_profile.sql_update_user_info("Employer", user_attrib_to_update, self.ex_student.user_telegram_id)
-            sql_change_profile.connection_close()
+            self.sql_change_profile.sql_update_user_info("Employer", user_attrib_to_update, self.ex_student.user_telegram_id)
             update.message.reply_text(
                 f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.'
             )
@@ -723,9 +702,7 @@ class ChangeProfileConversation:
             # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
             user_attrib_to_update = update.message.text.capitalize()
             # подключаемся к бд, чтобы проверить/найти выпускника
-            sql_change_profile = SqlApiChangeProfile()
-            sql_change_profile.sql_update_user_info("Position", user_attrib_to_update, self.ex_student.user_telegram_id)
-            sql_change_profile.connection_close()
+            self.sql_change_profile.sql_update_user_info("Position", user_attrib_to_update, self.ex_student.user_telegram_id)
             update.message.reply_text(
                 f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.'
             )
