@@ -746,12 +746,6 @@ class RegistrationConversation:
 
         self.SUCCESSFUL_INPUTS = 12  # !
 
-        # Разговор
-        update.message.reply_text(
-            'Ассоциация выпускников ГУУ благодарит Вас, что поделились информацией о себе.\n'
-            'Чтобы продолжить работу с ботом нажмите /start.',  # !
-        )
-
         self.ex_student.user_date_of_first_registration = datetime.datetime.now().strftime('%Y-%m-%d')  # 2023-11-05
         self.sql_registration.sql_insert_user_info(self.ex_student)
         user_sql_info_tuple = self.sql_registration.sql_select_all_user_info(self.ex_student.user_telegram_id)

@@ -4,3 +4,4 @@ venv/
 ProcurementsDB/Procurements.db
 BotSql/Token.txt
 BotSql/PostgreSqlApi/PostgreSQL_config.py
+BotSql/ca/*
