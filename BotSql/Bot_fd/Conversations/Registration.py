@@ -513,7 +513,9 @@ class RegistrationConversation:
                 self.logger.info("Пользователь %s - %s", user.first_name, update.message.text)
                 # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
                 user_birthdate = update.message.text
-                self.ex_student.user_BIRTHDATE = user_birthdate
+                day, month, year = user_birthdate.split(".")
+                user_birthdate_formated_date = datetime.date.fromisoformat(f'{year}-{month}-{day}')
+                self.ex_student.user_BIRTHDATE = user_birthdate_formated_date
         else:
             # определяем пользователя, в случае если пользователь ввел неверные данные на следующем этапе
             user = update.message.from_user

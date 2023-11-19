@@ -3,6 +3,7 @@ from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import (
     ConversationHandler,
 )
+import datetime
 
 from User_info_captured.User_info_captured import User
 
@@ -78,7 +79,7 @@ class ChangeProfileConversation:
             return self.CHANGE_PROFILE_ONE_FIELD
 
     def change_profile_one_field(self, update, context):
-        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+        if update.message.text == "/cancel":  # почему-то /cancel не срабатывает в handler
             self.ex_student = User()
             self.user_selected_field = None
             self.USER_TRIES = 2
@@ -163,7 +164,7 @@ class ChangeProfileConversation:
         return ConversationHandler.END
 
     def change_gender(self, update, context):
-        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+        if update.message.text == "/cancel":  # почему-то /cancel не срабатывает в handler
             self.ex_student = User()
             self.user_selected_field = None
             self.USER_TRIES = 2
@@ -198,7 +199,8 @@ class ChangeProfileConversation:
             # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
             user_attrib_to_update = update.message.text.capitalize()
             # подключаемся к бд, чтобы проверить/найти выпускника
-            self.sql_change_profile.sql_update_user_info("Gender", user_attrib_to_update, self.ex_student.user_telegram_id)
+            self.sql_change_profile.sql_update_user_info("Gender", user_attrib_to_update,
+                                                         self.ex_student.user_telegram_id)
             update.message.reply_text(
                 f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.'
             )
@@ -209,7 +211,7 @@ class ChangeProfileConversation:
             return ConversationHandler.END
 
     def change_surname(self, update, context):
-        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+        if update.message.text == "/cancel":  # почему-то /cancel не срабатывает в handler
             self.ex_student = User()
             self.user_selected_field = None
             self.USER_TRIES = 2
@@ -248,7 +250,8 @@ class ChangeProfileConversation:
             # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
             user_attrib_to_update = update.message.text.capitalize()
             # подключаемся к бд, чтобы проверить/найти выпускника
-            self.sql_change_profile.sql_update_user_info("Surname", user_attrib_to_update, self.ex_student.user_telegram_id)
+            self.sql_change_profile.sql_update_user_info("Surname", user_attrib_to_update,
+                                                         self.ex_student.user_telegram_id)
             update.message.reply_text(
                 f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.'
             )
@@ -259,7 +262,7 @@ class ChangeProfileConversation:
             return ConversationHandler.END
 
     def change_name(self, update, context):
-        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+        if update.message.text == "/cancel":  # почему-то /cancel не срабатывает в handler
             self.ex_student = User()
             self.user_selected_field = None
             self.USER_TRIES = 2
@@ -298,7 +301,8 @@ class ChangeProfileConversation:
             # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
             user_attrib_to_update = update.message.text.capitalize()
             # подключаемся к бд, чтобы проверить/найти выпускника
-            self.sql_change_profile.sql_update_user_info("Name", user_attrib_to_update, self.ex_student.user_telegram_id)
+            self.sql_change_profile.sql_update_user_info("Name", user_attrib_to_update,
+                                                         self.ex_student.user_telegram_id)
             update.message.reply_text(
                 f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.'
             )
@@ -309,7 +313,7 @@ class ChangeProfileConversation:
             return ConversationHandler.END
 
     def change_patronymic(self, update, context):
-        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+        if update.message.text == "/cancel":  # почему-то /cancel не срабатывает в handler
             self.ex_student = User()
             self.user_selected_field = None
             self.USER_TRIES = 2
@@ -349,7 +353,7 @@ class ChangeProfileConversation:
             user_attrib_to_update = update.message.text.capitalize()
             # подключаемся к бд, чтобы проверить/найти выпускника
             self.sql_change_profile.sql_update_user_info("Patronymic", user_attrib_to_update,
-                                                    self.ex_student.user_telegram_id)
+                                                         self.ex_student.user_telegram_id)
             update.message.reply_text(
                 f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.'
             )
@@ -360,7 +364,7 @@ class ChangeProfileConversation:
             return ConversationHandler.END
 
     def change_email(self, update, context):
-        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+        if update.message.text == "/cancel":  # почему-то /cancel не срабатывает в handler
             self.ex_student = User()
             self.user_selected_field = None
             self.USER_TRIES = 2
@@ -399,7 +403,8 @@ class ChangeProfileConversation:
             # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
             user_attrib_to_update = update.message.text.capitalize()
             # подключаемся к бд, чтобы проверить/найти выпускника
-            self.sql_change_profile.sql_update_user_info("Email", user_attrib_to_update, self.ex_student.user_telegram_id)
+            self.sql_change_profile.sql_update_user_info("Email", user_attrib_to_update,
+                                                         self.ex_student.user_telegram_id)
             update.message.reply_text(
                 f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.'
             )
@@ -410,7 +415,7 @@ class ChangeProfileConversation:
             return ConversationHandler.END
 
     def change_phone(self, update, context):
-        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+        if update.message.text == "/cancel":  # почему-то /cancel не срабатывает в handler
             self.ex_student = User()
             self.user_selected_field = None
             self.USER_TRIES = 2
@@ -449,7 +454,8 @@ class ChangeProfileConversation:
             # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
             user_attrib_to_update = update.message.text.capitalize()
             # подключаемся к бд, чтобы проверить/найти выпускника
-            self.sql_change_profile.sql_update_user_info("Phone", user_attrib_to_update, self.ex_student.user_telegram_id)
+            self.sql_change_profile.sql_update_user_info("Phone", user_attrib_to_update,
+                                                         self.ex_student.user_telegram_id)
             update.message.reply_text(
                 f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.'
             )
@@ -460,7 +466,7 @@ class ChangeProfileConversation:
             return ConversationHandler.END
 
     def change_birthdate(self, update, context):
-        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+        if update.message.text == "/cancel":  # почему-то /cancel не срабатывает в handler
             self.ex_student = User()
             self.user_selected_field = None
             self.USER_TRIES = 2
@@ -498,9 +504,11 @@ class ChangeProfileConversation:
             self.logger.info("Пользователь %s - %s", user.first_name, update.message.text)
             # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
             user_attrib_to_update = update.message.text.capitalize()
+            day, month, year = user_attrib_to_update.split(".")
+            user_attrib_to_update_formatted_date = datetime.date.fromisoformat(f'{year}-{month}-{day}')
             # подключаемся к бд, чтобы проверить/найти выпускника
-            self.sql_change_profile.sql_update_user_info("Birthdate", user_attrib_to_update,
-                                                    self.ex_student.user_telegram_id)
+            self.sql_change_profile.sql_update_user_info("Birthdate", user_attrib_to_update_formatted_date,
+                                                         self.ex_student.user_telegram_id)
             update.message.reply_text(
                 f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.'
             )
@@ -511,7 +519,7 @@ class ChangeProfileConversation:
             return ConversationHandler.END
 
     def change_graddate(self, update, context):
-        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+        if update.message.text == "/cancel":  # почему-то /cancel не срабатывает в handler
             self.ex_student = User()
             self.user_selected_field = None
             self.USER_TRIES = 2
@@ -551,7 +559,7 @@ class ChangeProfileConversation:
             user_attrib_to_update = update.message.text.capitalize()
             # подключаемся к бд, чтобы проверить/найти выпускника
             self.sql_change_profile.sql_update_user_info("Graduation_date", user_attrib_to_update,
-                                                    self.ex_student.user_telegram_id)
+                                                         self.ex_student.user_telegram_id)
             update.message.reply_text(
                 f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.'
             )
@@ -562,7 +570,7 @@ class ChangeProfileConversation:
             return ConversationHandler.END
 
     def change_institute(self, update, context):
-        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+        if update.message.text == "/cancel":  # почему-то /cancel не срабатывает в handler
             self.ex_student = User()
             self.user_selected_field = None
             self.USER_TRIES = 2
@@ -602,7 +610,7 @@ class ChangeProfileConversation:
             user_attrib_to_update = update.message.text.capitalize()
             # подключаемся к бд, чтобы проверить/найти выпускника
             self.sql_change_profile.sql_update_user_info("Institute", user_attrib_to_update,
-                                                    self.ex_student.user_telegram_id)
+                                                         self.ex_student.user_telegram_id)
             update.message.reply_text(
                 f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.'
             )
@@ -613,7 +621,7 @@ class ChangeProfileConversation:
             return ConversationHandler.END
 
     def change_employer(self, update, context):
-        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+        if update.message.text == "/cancel":  # почему-то /cancel не срабатывает в handler
             self.ex_student = User()
             self.user_selected_field = None
             self.USER_TRIES = 2
@@ -652,7 +660,8 @@ class ChangeProfileConversation:
             # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
             user_attrib_to_update = update.message.text.capitalize()
             # подключаемся к бд, чтобы проверить/найти выпускника
-            self.sql_change_profile.sql_update_user_info("Employer", user_attrib_to_update, self.ex_student.user_telegram_id)
+            self.sql_change_profile.sql_update_user_info("Employer", user_attrib_to_update,
+                                                         self.ex_student.user_telegram_id)
             update.message.reply_text(
                 f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.'
             )
@@ -663,7 +672,7 @@ class ChangeProfileConversation:
             return ConversationHandler.END
 
     def change_position(self, update, context):
-        if update.message.text == "/cancel": #почему-то /cancel не срабатывает в handler
+        if update.message.text == "/cancel":  # почему-то /cancel не срабатывает в handler
             self.ex_student = User()
             self.user_selected_field = None
             self.USER_TRIES = 2
@@ -702,7 +711,8 @@ class ChangeProfileConversation:
             # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
             user_attrib_to_update = update.message.text.capitalize()
             # подключаемся к бд, чтобы проверить/найти выпускника
-            self.sql_change_profile.sql_update_user_info("Position", user_attrib_to_update, self.ex_student.user_telegram_id)
+            self.sql_change_profile.sql_update_user_info("Position", user_attrib_to_update,
+                                                         self.ex_student.user_telegram_id)
             update.message.reply_text(
                 f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.'
             )
