@@ -1,6 +1,3 @@
-import logging
-
-
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, Update
 from telegram.ext import (
     Updater,
@@ -26,8 +23,8 @@ class ConversationBot:
 
 
     def start(self, update, context):
-        reply_keyboard = [['Зарегистрироваться', 'Обновить', 'Удалить']]
-        markup_key = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
+        reply_keyboard = [['Зарегистрироваться'], ['Обновить'], ['Удалить']]
+        markup_key = ReplyKeyboardMarkup(reply_keyboard,one_time_keyboard=True, resize_keyboard=True)
 
         # Начинаем разговор с вопроса
         update.message.reply_text(

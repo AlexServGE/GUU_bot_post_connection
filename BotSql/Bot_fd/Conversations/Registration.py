@@ -70,7 +70,7 @@ class RegistrationConversation:
         else:
             # Список кнопок для ответа
             reply_keyboard = [['Подтверждаю'], ['Не подтверждаю']]
-            markup_key = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
+            markup_key = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
             # Разговор
             update.message.reply_text(
                 f'Перечень персональных данных, на обработку которых дается согласие:\n'
@@ -101,7 +101,7 @@ class RegistrationConversation:
                 update.message.reply_text(
                     'Вы не подтвердили согласие на обработку Ваших персональных данных. Процесс регистрации прекращён.'
                     'Чтобы продолжить работу с ботом нажмите /start.'
-                )
+                    , reply_markup=ReplyKeyboardRemove())
                 self.SUCCESSFUL_INPUTS = 0
                 return self.cancel(update, context)
             else:
@@ -124,7 +124,7 @@ class RegistrationConversation:
         # Разговор
         # Список кнопок для ответа
         reply_keyboard = [['Мужской'], ['Женский']]
-        markup_key = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
+        markup_key = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
 
         update.message.reply_text(
             'Укажите свой пол:', reply_markup=markup_key,
@@ -182,7 +182,7 @@ class RegistrationConversation:
 
         # Разговор
         update.message.reply_text(
-            'Укажите свою фамилию:',
+            'Укажите свою фамилию:', reply_markup=ReplyKeyboardRemove()
         )
 
         return self.SURNAME

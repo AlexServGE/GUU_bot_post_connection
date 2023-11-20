@@ -38,7 +38,7 @@ class DeleteProfileConversation:
             # Список кнопок для ответа
             reply_keyboard = [['Да, прошу удалить мой профиль'],
                               ['Нет, прошу не удалять мой профиль']]
-            markup_key = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
+            markup_key = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
             # Разговор
             update.message.reply_text(
                 f'Нам удалось найти следующую информацию о Вас:\n'
@@ -62,18 +62,18 @@ class DeleteProfileConversation:
             if not user_sql_info_tuple:
                 update.message.reply_text(
                     f'Процедура удаления Вашего профиля прошла успешно. '
-                    f'Чтобы продолжить работу с ботом, нажмите /start.', )
+                    f'Чтобы продолжить работу с ботом, нажмите /start.', reply_markup=ReplyKeyboardRemove())
             else:
                 update.message.reply_text(
                     f'Процедура удаления Вашего профиля завершилась с ошибкой.\n'
                     f'Обратитесь, пожалуйста, напрямую в Ассоциацию выпускников ГУУ '
                     f'по телефону 8 (495) 377-89-14 (1410)\n.'
-                    f'Чтобы продолжить работу с ботом, нажмите /start.', )
+                    f'Чтобы продолжить работу с ботом, нажмите /start.', reply_markup=ReplyKeyboardRemove())
         else:
             update.message.reply_text(
                 f'Мы не удалили информацию о Вас. '
                 f'Процедура удаления прекращена. '
-                f'Чтобы продолжить работу с ботом, нажмите /start.', )
+                f'Чтобы продолжить работу с ботом, нажмите /start.', reply_markup=ReplyKeyboardRemove())
         self.ex_student = User()
         return ConversationHandler.END
 

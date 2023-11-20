@@ -95,31 +95,31 @@ class ChangeProfileConversation:
         if self.user_selected_field == 'Фамилия':
             self.INPUTS = 1
             update.message.reply_text(
-                f'Укажите свою фамилию:',
+                f'Укажите свою фамилию:', reply_markup=ReplyKeyboardRemove()
             )
             return self.SURNAME
         elif self.user_selected_field == 'Имя':
             self.INPUTS = 1
             update.message.reply_text(
-                f'Укажите своё полное имя:',
+                f'Укажите своё полное имя:', reply_markup=ReplyKeyboardRemove()
             )
             return self.NAME
         elif self.user_selected_field == 'Отчество':
             self.INPUTS = 1
             update.message.reply_text(
-                f'Укажите своё отчество:',
+                f'Укажите своё отчество:', reply_markup=ReplyKeyboardRemove()
             )
             return self.PATRONYMIC
         elif self.user_selected_field == 'Емейл':
             self.INPUTS = 1
             update.message.reply_text(
-                f'Укажите свой электронный адрес для связи (в формате name@domain.ru):',
+                f'Укажите свой электронный адрес для связи (в формате name@domain.ru):', reply_markup=ReplyKeyboardRemove()
             )
             return self.EMAIL
         elif self.user_selected_field == 'Телефон':
             self.INPUTS = 1
             update.message.reply_text(
-                f'Укажите свой телефон для связи (в формате 84953778914):',
+                f'Укажите свой телефон для связи (в формате 84953778914):', reply_markup=ReplyKeyboardRemove()
             )
             return self.PHONE
         elif self.user_selected_field == 'Пол':
@@ -133,31 +133,31 @@ class ChangeProfileConversation:
         elif self.user_selected_field == 'День рождения':
             self.INPUTS = 1
             update.message.reply_text(
-                f'Укажите год своего рождения (в формате: 01.01.1999):',
+                f'Укажите год своего рождения (в формате: 01.01.1999):', reply_markup=ReplyKeyboardRemove()
             )
             return self.BIRTHDATE
         elif self.user_selected_field == 'Год выпуска':
             self.INPUTS = 1
             update.message.reply_text(
-                f'Укажите год окончания университета (в формате: 1999):',
+                f'Укажите год окончания университета (в формате: 1999):', reply_markup=ReplyKeyboardRemove()
             )
             return self.GRADDATE
         elif self.user_selected_field == 'Институт':
             self.INPUTS = 1
             update.message.reply_text(
-                f'Укажите, какой институт/направление Вы оканчивали:',
+                f'Укажите, какой институт/направление Вы оканчивали:', reply_markup=ReplyKeyboardRemove()
             )
             return self.INSTITUTE
         elif self.user_selected_field == 'Работодатель':
             self.INPUTS = 1
             update.message.reply_text(
-                f'Укажите своего текущего работодателя, либо оставьте прочерк:',
+                f'Укажите своего текущего работодателя, либо оставьте прочерк:', reply_markup=ReplyKeyboardRemove()
             )
             return self.EMPLOYER
         elif self.user_selected_field == 'Позиция':
             self.INPUTS = 1
             update.message.reply_text(
-                f'Укажите свою должность, либо оставьте прочерк:',
+                f'Укажите свою должность, либо оставьте прочерк:', reply_markup=ReplyKeyboardRemove()
             )
             return self.POSITION
 
@@ -202,7 +202,7 @@ class ChangeProfileConversation:
             self.sql_change_profile.sql_update_user_info("Gender", user_attrib_to_update,
                                                          self.ex_student.user_telegram_id)
             update.message.reply_text(
-                f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.'
+                f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.', reply_markup=ReplyKeyboardRemove()
             )
             self.ex_student = User()
             self.user_selected_field = None
