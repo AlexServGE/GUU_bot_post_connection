@@ -7,7 +7,7 @@
       POSTGRES_PASSWORD: PASSWORD
 
 5 Specify:
-host = "172.0.0.5"
+host = "172.20.0.5"
 user = "USER"
 password = "PASSWORD"
 db_name = "project_db"
@@ -38,7 +38,7 @@ Phone bigint,
 Birthdate varchar(32),
 Graduation_date int,
 Institute varchar(32),
-Employer varchar(32),
+Employer varchar(255git ),
 Position varchar(32)
 );
 
