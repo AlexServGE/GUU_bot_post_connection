@@ -119,7 +119,7 @@ class ChangeProfileConversation:
         elif self.user_selected_field == 'Телефон':
             self.INPUTS = 1
             update.message.reply_text(
-                f'Укажите свой телефон для связи (в формате 84953778914):', reply_markup=ReplyKeyboardRemove()
+                f'Укажите свой телефон для связи (в формате 89992221100):', reply_markup=ReplyKeyboardRemove()
             )
             return self.PHONE
         elif self.user_selected_field == 'Пол':

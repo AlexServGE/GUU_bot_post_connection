@@ -412,7 +412,7 @@ class RegistrationConversation:
 
         # Разговор
         update.message.reply_text(
-            'Укажите свой телефон для связи (в формате 84953778914):',
+            'Укажите свой телефон для связи (в формате 89992221100):',
         )
 
         return self.PHONE
