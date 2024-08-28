@@ -84,8 +84,8 @@ class ConversationBot:
                     MessageHandler(Filters.text, self.registration_conversation.reg_birthdate)],
                 self.registration_conversation.GRADDATE: [
                     MessageHandler(Filters.text, self.registration_conversation.reg_graddate)],
-                # self.registration_conversation.INSTITUTE: [
-                #     MessageHandler(Filters.text, self.registration_conversation.reg_institute)],
+                self.registration_conversation.INSTITUTE: [
+                    MessageHandler(Filters.text, self.registration_conversation.reg_institute)],
                 self.registration_conversation.EMPLOYER: [
                     MessageHandler(Filters.text, self.registration_conversation.reg_employer)],
                 self.registration_conversation.POSITION: [
@@ -120,8 +120,8 @@ class ConversationBot:
                     MessageHandler(Filters.text, self.change_profile_conversation.change_birthdate)],
                 self.change_profile_conversation.GRADDATE: [
                     MessageHandler(Filters.text, self.change_profile_conversation.change_graddate)],
-                # self.change_profile_conversation.INSTITUTE: [
-                #     MessageHandler(Filters.text, self.change_profile_conversation.change_institute)],
+                self.change_profile_conversation.INSTITUTE: [
+                    MessageHandler(Filters.text, self.change_profile_conversation.change_institute)],
                 self.change_profile_conversation.EMPLOYER: [
                     MessageHandler(Filters.text, self.change_profile_conversation.change_employer)],
                 self.change_profile_conversation.POSITION: [

@@ -37,7 +37,7 @@ Email varchar(32),
 Phone bigint,
 Birthdate varchar(32),
 Graduation_date int,
-Institute varchar(32),
+Edprogram varchar(32),
 Employer varchar(255),
 Position varchar(32)
 );
