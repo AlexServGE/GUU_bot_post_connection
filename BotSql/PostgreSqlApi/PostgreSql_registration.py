@@ -48,6 +48,8 @@ class SqlApiRegistration:
     def sql_insert_user_info(self, user):
         try:
             self.establish_sql_connection()
+            #DELETED cursor.execute("Graduation_date, INSTITUTE, Employer"
+            #DELETED """user.user_GRADDATE, user.user_INSTITUTE,user.user_EMPLOYER,)
             with self.connection.cursor() as cursor:
                 cursor.execute("""
                     INSERT INTO graduates (
@@ -63,12 +65,9 @@ class SqlApiRegistration:
                     Phone,
                     Birthdate,
                     Graduation_date,
-                    # Institute,
                     Employer,
                     Position)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 
-
-                    %s, %s); 
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s); 
                     """, (user.user_date_of_first_registration,
                           user.user_telegram_id,
                           user.user_telegram_nickname,
@@ -81,7 +80,6 @@ class SqlApiRegistration:
                           user.user_PHONE,
                           user.user_BIRTHDATE,
                           user.user_GRADDATE,
-                          # user.user_INSTITUTE,
                           user.user_EMPLOYER,
                           user.user_POSITION))
                 # connection.commit()
