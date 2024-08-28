@@ -41,7 +41,7 @@ class ChangeProfileConversation:
         self.phone_checker = PhoneChecker()
         self.birthdate_checker = BirthdateChecker()
         self.grad_checker = GraddateChecker()
-        # self.institute_checker = InstituteChecker()
+        self.institute_checker = InstituteChecker()
         self.employer_checker = EmployerChecker()
         self.position_checker = PositionChecker()
 

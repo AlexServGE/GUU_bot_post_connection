@@ -627,7 +627,7 @@ class RegistrationConversation:
                 self.logger.info("Пользователь %s - %s", user.first_name, update.message.text)
                 # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
                 user_institute = update.message.text
-                self.ex_student.user_INSTITUTE = user_institute
+                self.ex_student.user_EDPROGRAM = user_institute
         else:
             # определяем пользователя, в случае если пользователь ввел неверные данные на следующем этапе
             user = update.message.from_user
