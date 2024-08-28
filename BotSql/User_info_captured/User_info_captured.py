@@ -39,6 +39,7 @@ class User:
         self.user_POSITION = sql_tuple[14]
 
     # На будущее: когда буду писать ветку обновления информации, необходимо добавить поле дата_последнего_обновления
+    #DELETED  # f"Институт: {self.user_INSTITUTE}\n" \
     def __str__(self):
         return f"Фамилия: {self.user_SURNAME}\n" \
                f"Имя: {self.user_NAME}\n" \
@@ -48,6 +49,5 @@ class User:
                f"Телефон: {self.user_PHONE}\n" \
                f"День рождения: {self.user_BIRTHDATE}\n" \
                f"Год выпуска: {self.user_GRADDATE}\n" \
-               # f"Институт: {self.user_INSTITUTE}\n" \
                f"Работодатель: {self.user_EMPLOYER}\n" \
                f"Позиция: {self.user_POSITION}\n"
