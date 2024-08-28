@@ -111,19 +111,19 @@ class ChangeProfileConversation:
                 f'Укажите своё отчество:', reply_markup=ReplyKeyboardRemove()
             )
             return self.PATRONYMIC
-        elif self.user_selected_field == 'Емейл':
+        elif self.user_selected_field == '\U00002709Емейл':
             self.INPUTS = 1
             update.message.reply_text(
                 f'Укажите свой \U00002709электронный адрес для связи (в формате name@domain.ru):', reply_markup=ReplyKeyboardRemove()
             )
             return self.EMAIL
-        elif self.user_selected_field == 'Телефон':
+        elif self.user_selected_field == '\U0001F4F1Телефон':
             self.INPUTS = 1
             update.message.reply_text(
                 f'Укажите свой \U0001F4F1телефон для связи (в формате 89992221100):', reply_markup=ReplyKeyboardRemove()
             )
             return self.PHONE
-        elif self.user_selected_field == 'Пол':
+        elif self.user_selected_field == '\U0001F468\U0001F3FB\U0000200D\U00002696\U0000FE0F \U0001F469\U0001F3FB\U0000200D\U00002696\U0000FE0FПол':
             self.INPUTS = 1
             reply_keyboard = [['\U0001F468\U0001F3FB\U0000200D\U00002696\U0000FE0FМужской'], ['\U0001F469\U0001F3FB\U0000200D\U00002696\U0000FE0FЖенский']]
             markup_key = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
@@ -131,13 +131,13 @@ class ChangeProfileConversation:
                 f'Укажите свой пол:', reply_markup=markup_key,
             )
             return self.GENDER
-        elif self.user_selected_field == 'День рождения':
+        elif self.user_selected_field == '\U0001F382Дата рождения':
             self.INPUTS = 1
             update.message.reply_text(
                 f'Укажите дату своего \U0001F382рождения (в формате: 01.01.1999):', reply_markup=ReplyKeyboardRemove()
             )
             return self.BIRTHDATE
-        elif self.user_selected_field == 'Год выпуска':
+        elif self.user_selected_field == '\U0001F393Год выпуска':
             self.INPUTS = 1
             update.message.reply_text(
                 f'Укажите год \U0001F393окончания университета (в формате: 1999):', reply_markup=ReplyKeyboardRemove()
@@ -149,13 +149,13 @@ class ChangeProfileConversation:
         #         f'Укажите, какой институт/направление Вы оканчивали:', reply_markup=ReplyKeyboardRemove()
         #     )
         #     return self.INSTITUTE
-        elif self.user_selected_field == 'Работодатель':
+        elif self.user_selected_field == '\U0001F3EDРаботодатель':
             self.INPUTS = 1
             update.message.reply_text(
                 f'Укажите своего текущего \U0001F3EDработодателя, либо оставьте прочерк:', reply_markup=ReplyKeyboardRemove()
             )
             return self.EMPLOYER
-        elif self.user_selected_field == 'Должность':
+        elif self.user_selected_field == '\U0001F464Должность':
             self.INPUTS = 1
             update.message.reply_text(
                 f'Укажите свою 	\U0001F464должность, либо оставьте прочерк:', reply_markup=ReplyKeyboardRemove()
