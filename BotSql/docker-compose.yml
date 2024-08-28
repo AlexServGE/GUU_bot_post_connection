@@ -17,7 +17,7 @@ services:
       - "5432:5432"
     networks:
       supernetwork:
-       ipv4_address: 172.20.0.5
+       ipv4_address: 174.20.0.5
     restart: unless-stopped
 
   bot:
@@ -27,7 +27,7 @@ services:
     container_name: bot_container
     networks:
       supernetwork:
-        ipv4_address: 172.20.0.6
+        ipv4_address: 174.20.0.6
     depends_on:
       - postgres
 
@@ -36,7 +36,7 @@ networks:
   supernetwork:
     ipam:
       config:
-        - subnet: 172.20.0.0/24
+        - subnet: 174.20.0.0/24
 
 volumes:
     postgres:
