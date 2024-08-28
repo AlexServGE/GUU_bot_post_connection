@@ -67,7 +67,7 @@ class ChangeProfileConversation:
                               ['\U00002709Емейл', '\U0001F4F1Телефон', '\U0001F468\U0001F3FB\U0000200D\U00002696\U0000FE0F \U0001F469\U0001F3FB\U0000200D\U00002696\U0000FE0FПол'],
                               ['\U0001F382Дата рождения', '\U0001F393Год выпуска'],
                               # ['Институт'],
-                              ['\U0001F3EDРаботодатель', '\U0001F464Должность']]
+                              ['\U0001F3EDМесто работы', '\U0001F464Должность']]
             markup_key = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
             # Разговор
             update.message.reply_text(
@@ -149,10 +149,10 @@ class ChangeProfileConversation:
         #         f'Укажите, какой институт/направление Вы оканчивали:', reply_markup=ReplyKeyboardRemove()
         #     )
         #     return self.INSTITUTE
-        elif self.user_selected_field == '\U0001F3EDРаботодатель':
+        elif self.user_selected_field == '\U0001F3EDМесто работы':
             self.INPUTS = 1
             update.message.reply_text(
-                f'Укажите своего текущего \U0001F3EDработодателя, либо оставьте прочерк:', reply_markup=ReplyKeyboardRemove()
+                f'Укажите свое текущее \U0001F3EDместо работы, либо оставьте прочерк:', reply_markup=ReplyKeyboardRemove()
             )
             return self.EMPLOYER
         elif self.user_selected_field == '\U0001F464Должность':

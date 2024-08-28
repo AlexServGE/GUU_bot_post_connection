@@ -1,10 +1,10 @@
 class User:
 
-    #DELETE user_GRADDATE=None,user_INSTITUTE=None,user_EMPLOYER=None из аргументов
+
     def __init__(self, user_date_of_first_registration=None, user_telegram_id=None, telegram_nickname=None,
                  user_PERSONAL_INFO_ACCEPTANCE=None, user_GENDER=None, user_SURNAME=None,
                  user_NAME=None, user_PATRONYMIC=None, user_EMAIL=None, user_PHONE=None, user_BIRTHDATE=None,
-                 user_GRADDATE=None,
+                 user_GRADDATE=None, user_EDPROGRAM = None,
                  user_EMPLOYER=None, user_POSITION=None):
         self.user_date_of_first_registration = user_date_of_first_registration  # 2023-11-05
         self.user_telegram_id = user_telegram_id
@@ -18,7 +18,7 @@ class User:
         self.user_PHONE = user_PHONE
         self.user_BIRTHDATE = user_BIRTHDATE
         self.user_GRADDATE = user_GRADDATE
-        # self.user_INSTITUTE = user_INSTITUTE
+        self.user_EDPROGRAM = user_EDPROGRAM
         self.user_EMPLOYER = user_EMPLOYER
         self.user_POSITION = user_POSITION
 
@@ -34,12 +34,11 @@ class User:
         self.user_PHONE = sql_tuple[10]
         self.user_BIRTHDATE = sql_tuple[11]
         self.user_GRADDATE = sql_tuple[12]
-        # self.user_INSTITUTE = sql_tuple[13]
-        self.user_EMPLOYER = sql_tuple[13]
-        self.user_POSITION = sql_tuple[14]
+        self.user_EDPROGRAM = sql_tuple[13]
+        self.user_EMPLOYER = sql_tuple[14]
+        self.user_POSITION = sql_tuple[15]
 
     # На будущее: когда буду писать ветку обновления информации, необходимо добавить поле дата_последнего_обновления
-    #DELETED  # f"Институт: {self.user_INSTITUTE}\n" \
     def __str__(self):
         return f"Фамилия: {self.user_SURNAME}\n" \
                f"Имя: {self.user_NAME}\n" \
@@ -47,7 +46,8 @@ class User:
                f"Пол: {self.user_GENDER}\n" \
                f"Емейл: {self.user_EMAIL}\n" \
                f"Телефон: {self.user_PHONE}\n" \
-               f"День рождения: {self.user_BIRTHDATE}\n" \
+               f"Дата рождения: {self.user_BIRTHDATE}\n" \
                f"Год выпуска: {self.user_GRADDATE}\n" \
-               f"Работодатель: {self.user_EMPLOYER}\n" \
+               f"Образовательная программа: {self.user_EDPROGRAM}\n" \
+               f"Место работы: {self.user_EMPLOYER}\n" \
                f"Позиция: {self.user_POSITION}\n"

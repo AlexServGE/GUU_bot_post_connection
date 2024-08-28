@@ -40,7 +40,7 @@ class RegistrationConversation:
         self.phone_checker = PhoneChecker()
         self.birthdate_checker = BirthdateChecker()
         self.grad_checker = GraddateChecker()
-        # self.institute_checker = InstituteChecker()
+        self.institute_checker = InstituteChecker()
         self.employer_checker = EmployerChecker()
         self.position_checker = PositionChecker()
 
@@ -81,10 +81,10 @@ class RegistrationConversation:
                 f'\U00002709Электронный адрес\n'
                 f'\U0001F4F1Контактный телефон\n'
                 f'\U0001F382Дата рождения\n'
-                f'\U0001F393Дата окончания университета\n'
-                # f'Структурное подразделение\n'
-                f'\U0001F3EDРаботодатель\n'
-                f'\U0001F464Должность',
+                f'\U0001F393Год выпуска\n'
+                f'\U0001F4BCОбразовательная программа\n'
+                f'\U0001F3EDМесто работы (необязательно)\n'
+                f'\U0001F464Должность (необязательно)',
                 reply_markup=markup_key, )
             return self.PERSONAL_INFO_ACCEPTANCE
 
@@ -582,67 +582,66 @@ class RegistrationConversation:
 
         # Разговор
         update.message.reply_text(
-            'Укажите, какой институт/направление Вы оканчивали:',  # !
+            'Укажите, какую образовательную программу Вы оканчивали:',  # !
         )
 
-        # return self.INSTITUTE
-        return self.EMPLOYER
+        return self.INSTITUTE
 
-    # def reg_institute(self, update, context):
-    #     if update.message.text == "/cancel":  # почему-то /cancel не срабатывает в handler
-    #         self.ex_student = User()
-    #         self.ex_student.user_date_of_first_registration = None
-    #         self.USER_TRIES = 2
-    #         self.SUCCESSFUL_INPUTS = 0
-    #         return self.cancel(update, context)
-    #     if self.SUCCESSFUL_INPUTS < 10:  # !
-    #         msg_for_user = self.institute_checker.checkUserInputInstitute(update.message.text)  # !!
-    #         if msg_for_user is not None:
-    #             if self.USER_TRIES == 2:
-    #                 update.message.reply_text(
-    #                     f'{msg_for_user}\n'
-    #                     f'У Вас осталось {self.USER_TRIES} попытки.'
-    #                 )
-    #                 self.USER_TRIES -= 1
-    #                 return self.reg_graddate(update, context)  # !
-    #             if self.USER_TRIES == 1:
-    #                 update.message.reply_text(
-    #                     f'{msg_for_user}\n'
-    #                     f'У Вас осталась {self.USER_TRIES} попытка.'
-    #                 )
-    #                 self.USER_TRIES -= 1
-    #                 return self.reg_graddate(update, context)  # !
-    #             if self.USER_TRIES == 0:
-    #                 update.message.reply_text(
-    #                     f'{msg_for_user}\n'
-    #                     f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации \U000023F9прекращён.'
-    #                 )
-    #                 self.USER_TRIES = 2
-    #                 self.SUCCESSFUL_INPUTS = 0
-    #                 return self.cancel(update, context)
-    #         else:
-    #             self.USER_TRIES = 2
-    #             # определяем пользователя
-    #             user = update.message.from_user
-    #             # Пишем в журнал ответ пользователя
-    #             self.logger.info("Пользователь %s - %s", user.first_name, update.message.text)
-    #             # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
-    #             user_institute = update.message.text
-    #             self.ex_student.user_INSTITUTE = user_institute
-    #     else:
-    #         # определяем пользователя, в случае если пользователь ввел неверные данные на следующем этапе
-    #         user = update.message.from_user
-    #         # Пишем в журнал ответ пользователя, в случае если пользователь ввел неверные данные на следующем этапе
-    #         self.logger.info("Пользователь %s - %s", user.first_name, update.message.text)
-    #
-    #     self.SUCCESSFUL_INPUTS = 10  # !
-    #
-    #     # Разговор
-    #     update.message.reply_text(
-    #         'Укажите своего текущего работодателя, либо оставьте прочерк:',  # !
-    #     )
-    #
-    #     return self.EMPLOYER
+    def reg_institute(self, update, context):
+        if update.message.text == "/cancel":  # почему-то /cancel не срабатывает в handler
+            self.ex_student = User()
+            self.ex_student.user_date_of_first_registration = None
+            self.USER_TRIES = 2
+            self.SUCCESSFUL_INPUTS = 0
+            return self.cancel(update, context)
+        if self.SUCCESSFUL_INPUTS < 10:  # !
+            msg_for_user = self.institute_checker.checkUserInputInstitute(update.message.text)  # !!
+            if msg_for_user is not None:
+                if self.USER_TRIES == 2:
+                    update.message.reply_text(
+                        f'{msg_for_user}\n'
+                        f'У Вас осталось {self.USER_TRIES} попытки.'
+                    )
+                    self.USER_TRIES -= 1
+                    return self.reg_graddate(update, context)  # !
+                if self.USER_TRIES == 1:
+                    update.message.reply_text(
+                        f'{msg_for_user}\n'
+                        f'У Вас осталась {self.USER_TRIES} попытка.'
+                    )
+                    self.USER_TRIES -= 1
+                    return self.reg_graddate(update, context)  # !
+                if self.USER_TRIES == 0:
+                    update.message.reply_text(
+                        f'{msg_for_user}\n'
+                        f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации \U000023F9прекращён.'
+                    )
+                    self.USER_TRIES = 2
+                    self.SUCCESSFUL_INPUTS = 0
+                    return self.cancel(update, context)
+            else:
+                self.USER_TRIES = 2
+                # определяем пользователя
+                user = update.message.from_user
+                # Пишем в журнал ответ пользователя
+                self.logger.info("Пользователь %s - %s", user.first_name, update.message.text)
+                # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
+                user_institute = update.message.text
+                self.ex_student.user_INSTITUTE = user_institute
+        else:
+            # определяем пользователя, в случае если пользователь ввел неверные данные на следующем этапе
+            user = update.message.from_user
+            # Пишем в журнал ответ пользователя, в случае если пользователь ввел неверные данные на следующем этапе
+            self.logger.info("Пользователь %s - %s", user.first_name, update.message.text)
+
+        self.SUCCESSFUL_INPUTS = 10  # !
+
+        # Разговор
+        update.message.reply_text(
+            'Укажите своего текущее место работы, либо оставьте прочерк (необязательно):',  # !
+        )
+
+        return self.EMPLOYER
 
     def reg_employer(self, update, context):
         if update.message.text == "/cancel":  # почему-то /cancel не срабатывает в handler
@@ -695,7 +694,7 @@ class RegistrationConversation:
 
         # Разговор
         update.message.reply_text(
-            'Укажите свою должность, либо оставьте прочерк:',  # !
+            'Укажите свою должность, либо оставьте прочерк (необязательно):',  # !
         )
 
         return self.POSITION
