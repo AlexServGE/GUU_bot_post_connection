@@ -48,6 +48,6 @@ class User:
                f"Телефон: {self.user_PHONE}\n" \
                f"День рождения: {self.user_BIRTHDATE}\n" \
                f"Год выпуска: {self.user_GRADDATE}\n" \
-               f"Институт: {self.user_INSTITUTE}\n" \
+               # f"Институт: {self.user_INSTITUTE}\n" \
                f"Работодатель: {self.user_EMPLOYER}\n" \
                f"Позиция: {self.user_POSITION}\n"
