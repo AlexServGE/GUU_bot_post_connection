@@ -29,8 +29,8 @@ class DeleteProfileConversation:
         user_sql_info_tuple = self.sql_delete_profile.sql_select_all_user_info(self.ex_student.user_telegram_id)
         if not user_sql_info_tuple:
             update.message.reply_text(
-                f'Ваш профиль не зарегистрирован в u"\U0001F393"Ассоциации выпускников.\n' \
-                f'Чтобы продолжить работу с ботом, нажмите u"\U000025B6"/start.',
+                f'Ваш профиль не зарегистрирован в \U0001F393Ассоциации выпускников.\n' \
+                f'Чтобы продолжить работу с ботом, нажмите \U000025B6/start.',
             )
             return ConversationHandler.END
         else:
@@ -43,7 +43,7 @@ class DeleteProfileConversation:
             update.message.reply_text(
                 f'Нам удалось найти следующую информацию о Вас:\n'
                 f'{self.ex_student}\n'
-                f'Вы уверены, что хотели бы удалить информацию о себе из u"\U0001F393"Ассоциации выпускников?',
+                f'Вы уверены, что хотели бы удалить информацию о себе из \U0001F393Ассоциации выпускников?',
                 reply_markup=markup_key)
             return self.DELETE_PROFILE
 
@@ -62,19 +62,19 @@ class DeleteProfileConversation:
             if not user_sql_info_tuple:
                 update.message.reply_text(
                     f'Процедура удаления Вашего профиля прошла успешно. '
-                    f'Чтобы продолжить работу с ботом, нажмите u"\U000025B6"/start.', reply_markup=ReplyKeyboardRemove())
+                    f'Чтобы продолжить работу с ботом, нажмите \U000025B6/start.', reply_markup=ReplyKeyboardRemove())
             else:
                 update.message.reply_text(
                     f'Процедура удаления Вашего профиля завершилась с u"\U0001F6D1"ошибкой.\n'
-                    f'Обратитесь, пожалуйста, напрямую в u"\U0001F393"Ассоциацию выпускников u"\U00002696"Факультета права НИУ ВШЭ:\n'
-                    f'u"\U0001F4DE" +7(495)772-95-90 *23024,\n'
-                    f'u"\U0001F4E9" lawfacult@hse.ru\n'
-                    f'Чтобы продолжить работу с ботом, нажмите 	u"\U000025B6"/start.', reply_markup=ReplyKeyboardRemove())
+                    f'Обратитесь, пожалуйста, напрямую в \U0001F393Ассоциацию выпускников \U00002696Факультета права НИУ ВШЭ:\n'
+                    f'\U0001F4DE +7(495)772-95-90 *23024,\n'
+                    f'\U0001F4E9 lawfacult@hse.ru\n'
+                    f'Чтобы продолжить работу с ботом, нажмите 	\U000025B6/start.', reply_markup=ReplyKeyboardRemove())
         else:
             update.message.reply_text(
                 f'Мы не удалили информацию о Вас. '
                 f'Процедура удаления отменена. '
-                f'Чтобы продолжить работу с ботом, нажмите 	u"\U000025B6"/start.', reply_markup=ReplyKeyboardRemove())
+                f'Чтобы продолжить работу с ботом, нажмите 	\U000025B6/start.', reply_markup=ReplyKeyboardRemove())
         self.ex_student = User()
         return ConversationHandler.END
 
@@ -85,8 +85,8 @@ class DeleteProfileConversation:
         self.logger.info("Пользователь %s отменил разговор.", user.first_name)
         # Отвечаем на отказ поговорить
         update.message.reply_text(
-            'По Вашему запросу разговор u"\U000023F9"прекращён. '
-            'Чтобы продолжить работу с ботом нажмите u"\U000025B6"/start.',
+            'По Вашему запросу разговор \U000023F9прекращён. '
+            'Чтобы продолжить работу с ботом нажмите \U000025B6/start.',
             reply_markup=ReplyKeyboardRemove()
         )
         self.ex_student = User()
