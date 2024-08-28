@@ -17,7 +17,7 @@ class User:
         self.user_PHONE = user_PHONE
         self.user_BIRTHDATE = user_BIRTHDATE
         self.user_GRADDATE = user_GRADDATE
-        self.user_INSTITUTE = user_INSTITUTE
+        # self.user_INSTITUTE = user_INSTITUTE
         self.user_EMPLOYER = user_EMPLOYER
         self.user_POSITION = user_POSITION
 
@@ -33,9 +33,9 @@ class User:
         self.user_PHONE = sql_tuple[10]
         self.user_BIRTHDATE = sql_tuple[11]
         self.user_GRADDATE = sql_tuple[12]
-        self.user_INSTITUTE = sql_tuple[13]
-        self.user_EMPLOYER = sql_tuple[14]
-        self.user_POSITION = sql_tuple[15]
+        # self.user_INSTITUTE = sql_tuple[13]
+        self.user_EMPLOYER = sql_tuple[13]
+        self.user_POSITION = sql_tuple[14]
 
     # На будущее: когда буду писать ветку обновления информации, необходимо добавить поле дата_последнего_обновления
     def __str__(self):
