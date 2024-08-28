@@ -609,7 +609,7 @@ class ChangeProfileConversation:
             # Наполняем список фильтров, выбранных пользователем для передачи в SqlApiSel
             user_attrib_to_update = update.message.text.capitalize()
             # подключаемся к бд, чтобы проверить/найти выпускника
-            self.sql_change_profile.sql_update_user_info("Institute", user_attrib_to_update,
+            self.sql_change_profile.sql_update_user_info("Edprogram", user_attrib_to_update,
                                                          self.ex_student.user_telegram_id)
             update.message.reply_text(
                 f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите \U000025B6/start.'
