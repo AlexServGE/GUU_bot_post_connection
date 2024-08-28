@@ -21,17 +21,19 @@ class ConversationBot:
         self.change_profile_conversation = ChangeProfileConversation(self.updater, self.dispatcher, self.logger)
         self.delete_profile_conversation = DeleteProfileConversation(self.updater, self.dispatcher, self.logger)
 
-
     def start(self, update, context):
         reply_keyboard = [['Зарегистрироваться'], ['Обновить'], ['Удалить']]
-        markup_key = ReplyKeyboardMarkup(reply_keyboard,one_time_keyboard=True, resize_keyboard=True)
+        markup_key = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
 
         # Начинаем разговор с вопроса
         update.message.reply_text(
             f'Доброго времени суток!\n'
-            f'Вас приветствует официальный бот Ассоциации выпускников Государственного Университета Управления.\n'
-            f'Мы здесь, чтобы помочь зарегистрировать/обновить/удалить контактную информацию о Вас, которая позволит Ассоциации выпускников оставаться на связи с Вами.\n'
-            f'Команда /cancel, чтобы прекратить разговор.',)
+            f'Вас приветствует официальный бот u"\U0001F393"Ассоциации выпускников  u"\U00002696"Факультета права '
+            f'НИУ Высшей Школы Экономики.\n'
+            f'Мы здесь, чтобы помочь зарегистрировать/обновить/удалить контактную информацию о Вас, которая позволит '
+            f'Ассоциации выпускников u"\U0001F393" оставаться на связи u"\U0001F4DE" u"\U0001F4E9" с Вами '
+            f'u"\U0001F469\U0000200D\U00002696\U0000FE0F"u"\U0001F468\U0000200D\U00002696\U0000FE0F".\n'
+            f'Команда /cancel, чтобы u"\U000023F9"прекратить разговор.', )
         update.message.reply_text(
             f'Уточните, пожалуйста, что бы Вы хотели сделать, выбрав нужную опцию на появившейся клавиатуре⌨:',
             reply_markup=markup_key, )
@@ -47,10 +49,11 @@ class ConversationBot:
         self.logger.info("Пользователь %s отменил разговор.", user.first_name)
         # Отвечаем на отказ поговорить
         update.message.reply_text(
-            'По Вашему запросу разговор прекращён. '
-            'Чтобы продолжить работу с ботом нажмите /start.',
+            'По Вашему запросу разговор u"\U000023F9"прекращён. '
+            'Чтобы продолжить работу с ботом нажмите u"\U000025B6"/start.',
             reply_markup=ReplyKeyboardRemove()
         )
+
     def bot_session(self):
         conv_handler_registration = ConversationHandler(  # здесь строится логика разговора
             # точка входа в разговор
@@ -76,8 +79,8 @@ class ConversationBot:
                     MessageHandler(Filters.text, self.registration_conversation.reg_birthdate)],
                 self.registration_conversation.GRADDATE: [
                     MessageHandler(Filters.text, self.registration_conversation.reg_graddate)],
-                self.registration_conversation.INSTITUTE: [
-                    MessageHandler(Filters.text, self.registration_conversation.reg_institute)],
+                # self.registration_conversation.INSTITUTE: [
+                #     MessageHandler(Filters.text, self.registration_conversation.reg_institute)],
                 self.registration_conversation.EMPLOYER: [
                     MessageHandler(Filters.text, self.registration_conversation.reg_employer)],
                 self.registration_conversation.POSITION: [
@@ -89,7 +92,8 @@ class ConversationBot:
 
         conv_handler_change_profile = ConversationHandler(  # здесь строится логика разговора
             # точка входа в разговор
-            entry_points=[MessageHandler(Filters.regex('^(Обновить|обновить)$'),  #Обновить|обновить соответствует выбору в методе start
+            entry_points=[MessageHandler(Filters.regex('^(Обновить|обновить)$'),
+                                         # Обновить|обновить соответствует выбору в методе start
                                          self.change_profile_conversation.start_change_profile)],
             # этапы разговора, каждый со своим списком обработчиков сообщений
             states={
@@ -111,8 +115,8 @@ class ConversationBot:
                     MessageHandler(Filters.text, self.change_profile_conversation.change_birthdate)],
                 self.change_profile_conversation.GRADDATE: [
                     MessageHandler(Filters.text, self.change_profile_conversation.change_graddate)],
-                self.change_profile_conversation.INSTITUTE: [
-                    MessageHandler(Filters.text, self.change_profile_conversation.change_institute)],
+                # self.change_profile_conversation.INSTITUTE: [
+                #     MessageHandler(Filters.text, self.change_profile_conversation.change_institute)],
                 self.change_profile_conversation.EMPLOYER: [
                     MessageHandler(Filters.text, self.change_profile_conversation.change_employer)],
                 self.change_profile_conversation.POSITION: [
@@ -124,7 +128,8 @@ class ConversationBot:
 
         conv_handler_delete_profile = ConversationHandler(  # здесь строится логика разговора
             # точка входа в разговор
-            entry_points=[MessageHandler(Filters.regex('^(Удалить|удалить)$'),  #Удалить|удалить соответствует выбору в методе start
+            entry_points=[MessageHandler(Filters.regex('^(Удалить|удалить)$'),
+                                         # Удалить|удалить соответствует выбору в методе start
                                          self.delete_profile_conversation.start_delete_profile)],
             # этапы разговора, каждый со своим списком обработчиков сообщений
             states={
@@ -141,6 +146,7 @@ class ConversationBot:
         self.dispatcher.add_handler(conv_handler_delete_profile)
         self.dispatcher.add_handler(CommandHandler("start", self.start))
         self.dispatcher.add_handler(CommandHandler("cancel", self.cancel))
+
 
 if __name__ == '__main__':
     pass

@@ -41,7 +41,7 @@ class ChangeProfileConversation:
         self.phone_checker = PhoneChecker()
         self.birthdate_checker = BirthdateChecker()
         self.grad_checker = GraddateChecker()
-        self.institute_checker = InstituteChecker()
+        # self.institute_checker = InstituteChecker()
         self.employer_checker = EmployerChecker()
         self.position_checker = PositionChecker()
 
@@ -56,25 +56,26 @@ class ChangeProfileConversation:
         user_sql_info_tuple = self.sql_change_profile.sql_select_all_user_info(self.ex_student.user_telegram_id)
         if not user_sql_info_tuple:
             update.message.reply_text(
-                f'К сожалению, нам не удалось найти информацию о Вашем профиле в Ассоциации выпускников ГУУ.\n' \
-                f'Вы можете пройти регистрацию. Для этого нажмите /start.',
+                f'К сожалению, нам не удалось найти информацию о Вашем профиле в u"\U0001F393"Ассоциации выпускников.\n' \
+                f'Вы можете пройти регистрацию. Для этого нажмите u"\U000025B6"/start.',
             )
             return ConversationHandler.END
         else:
             self.ex_student.fill_user_fields_from_tuple(user_sql_info_tuple)
             # Список кнопок для ответа
             reply_keyboard = [['Фамилия', 'Имя', 'Отчество'],
-                              ['Емейл', 'Телефон', 'Пол'],
-                              ['День рождения', 'Год выпуска'],
-                              ['Институт', 'Работодатель', 'Позиция']]
+                              ['u"\U00002709"Емейл', 'u"\U0001F4F1"Телефон', 'u"\U0001F468\U0001F3FB\U0000200D\U00002696\U0000FE0F"u"\U0001F469\U0001F3FB\U0000200D\U00002696\U0000FE0F"Пол'],
+                              ['u"\U0001F382"Дата рождения', 'u"\U0001F393"Год выпуска'],
+                              # ['Институт'],
+                              ['u"\U0001F3ED"Работодатель', 'u"\U0001F464"Должность']]
             markup_key = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
             # Разговор
             update.message.reply_text(
-                f'Нам удалось найти следующую информацию о Вас:\n'
+                f'Нам удалось найти следующую информацию о Вас	u"\U0001F516":\n'
                 f'{self.ex_student}', )
             # Разговор
             update.message.reply_text(
-                f'Укажите поле, которое хотели бы обновить о себе. Команда /cancel, чтобы прекратить разговор.',
+                f'Укажите поле, которое хотели бы обновить о себе. Команда /cancel, чтобы u"\U000023F9"прекратить разговор.',
                 reply_markup=markup_key, )
             return self.CHANGE_PROFILE_ONE_FIELD
 
@@ -113,18 +114,18 @@ class ChangeProfileConversation:
         elif self.user_selected_field == 'Емейл':
             self.INPUTS = 1
             update.message.reply_text(
-                f'Укажите свой электронный адрес для связи (в формате name@domain.ru):', reply_markup=ReplyKeyboardRemove()
+                f'Укажите свой u"\U00002709"электронный адрес для связи (в формате name@domain.ru):', reply_markup=ReplyKeyboardRemove()
             )
             return self.EMAIL
         elif self.user_selected_field == 'Телефон':
             self.INPUTS = 1
             update.message.reply_text(
-                f'Укажите свой телефон для связи (в формате 89992221100):', reply_markup=ReplyKeyboardRemove()
+                f'Укажите свой u"\U0001F4F1"телефон для связи (в формате 89992221100):', reply_markup=ReplyKeyboardRemove()
             )
             return self.PHONE
         elif self.user_selected_field == 'Пол':
             self.INPUTS = 1
-            reply_keyboard = [['Мужской'], ['Женский']]
+            reply_keyboard = [['u"\U0001F468\U0001F3FB\U0000200D\U00002696\U0000FE0F"Мужской'], ['u"\U0001F469\U0001F3FB\U0000200D\U00002696\U0000FE0F"Женский']]
             markup_key = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
             update.message.reply_text(
                 f'Укажите свой пол:', reply_markup=markup_key,
@@ -133,31 +134,31 @@ class ChangeProfileConversation:
         elif self.user_selected_field == 'День рождения':
             self.INPUTS = 1
             update.message.reply_text(
-                f'Укажите год своего рождения (в формате: 01.01.1999):', reply_markup=ReplyKeyboardRemove()
+                f'Укажите дату своего u"\U0001F382"рождения (в формате: 01.01.1999):', reply_markup=ReplyKeyboardRemove()
             )
             return self.BIRTHDATE
         elif self.user_selected_field == 'Год выпуска':
             self.INPUTS = 1
             update.message.reply_text(
-                f'Укажите год окончания университета (в формате: 1999):', reply_markup=ReplyKeyboardRemove()
+                f'Укажите год u"\U0001F393"окончания университета (в формате: 1999):', reply_markup=ReplyKeyboardRemove()
             )
             return self.GRADDATE
-        elif self.user_selected_field == 'Институт':
-            self.INPUTS = 1
-            update.message.reply_text(
-                f'Укажите, какой институт/направление Вы оканчивали:', reply_markup=ReplyKeyboardRemove()
-            )
-            return self.INSTITUTE
+        # elif self.user_selected_field == 'Институт':
+        #     self.INPUTS = 1
+        #     update.message.reply_text(
+        #         f'Укажите, какой институт/направление Вы оканчивали:', reply_markup=ReplyKeyboardRemove()
+        #     )
+        #     return self.INSTITUTE
         elif self.user_selected_field == 'Работодатель':
             self.INPUTS = 1
             update.message.reply_text(
-                f'Укажите своего текущего работодателя, либо оставьте прочерк:', reply_markup=ReplyKeyboardRemove()
+                f'Укажите своего текущего u"\U0001F3ED"работодателя, либо оставьте прочерк:', reply_markup=ReplyKeyboardRemove()
             )
             return self.EMPLOYER
-        elif self.user_selected_field == 'Позиция':
+        elif self.user_selected_field == 'Должность':
             self.INPUTS = 1
             update.message.reply_text(
-                f'Укажите свою должность, либо оставьте прочерк:', reply_markup=ReplyKeyboardRemove()
+                f'Укажите свою 	u"\U0001F464"должность, либо оставьте прочерк:', reply_markup=ReplyKeyboardRemove()
             )
             return self.POSITION
 
@@ -186,7 +187,7 @@ class ChangeProfileConversation:
                 return self.change_profile_one_field(update, context)
             if self.USER_TRIES == 0:
                 update.message.reply_text(
-                    f'Просьба указывать запрашиваемую информацию. У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
+                    f'Просьба указывать запрашиваемую информацию. У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации u"\U000023F9"прекращён.'
                 )
                 # self.USER_TRIES = 2
                 # self.SUCCESSFUL_INPUTS = 0
@@ -202,7 +203,7 @@ class ChangeProfileConversation:
             self.sql_change_profile.sql_update_user_info("Gender", user_attrib_to_update,
                                                          self.ex_student.user_telegram_id)
             update.message.reply_text(
-                f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.', reply_markup=ReplyKeyboardRemove()
+                f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите u"\U000025B6"/start.', reply_markup=ReplyKeyboardRemove()
             )
             self.ex_student = User()
             self.user_selected_field = None
@@ -237,7 +238,7 @@ class ChangeProfileConversation:
             if self.USER_TRIES == 0:
                 update.message.reply_text(
                     f'{msg_for_user}\n'
-                    f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
+                    f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации u"\U000023F9"прекращён.'
                 )
                 # self.USER_TRIES = 2
                 # self.SUCCESSFUL_INPUTS = 0
@@ -253,7 +254,7 @@ class ChangeProfileConversation:
             self.sql_change_profile.sql_update_user_info("Surname", user_attrib_to_update,
                                                          self.ex_student.user_telegram_id)
             update.message.reply_text(
-                f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.'
+                f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите u"\U000025B6"/start.'
             )
             self.ex_student = User()
             self.user_selected_field = None
@@ -288,7 +289,7 @@ class ChangeProfileConversation:
             if self.USER_TRIES == 0:
                 update.message.reply_text(
                     f'{msg_for_user}\n'
-                    f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
+                    f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации u"\U000023F9"прекращён.'
                 )
                 # self.USER_TRIES = 2
                 # self.SUCCESSFUL_INPUTS = 0
@@ -304,7 +305,7 @@ class ChangeProfileConversation:
             self.sql_change_profile.sql_update_user_info("Name", user_attrib_to_update,
                                                          self.ex_student.user_telegram_id)
             update.message.reply_text(
-                f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.'
+                f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите u"\U000025B6"/start.'
             )
             self.ex_student = User()
             self.user_selected_field = None
@@ -339,7 +340,7 @@ class ChangeProfileConversation:
             if self.USER_TRIES == 0:
                 update.message.reply_text(
                     f'{msg_for_user}\n'
-                    f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
+                    f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации u"\U000023F9"прекращён.'
                 )
                 # self.USER_TRIES = 2
                 # self.SUCCESSFUL_INPUTS = 0
@@ -355,7 +356,7 @@ class ChangeProfileConversation:
             self.sql_change_profile.sql_update_user_info("Patronymic", user_attrib_to_update,
                                                          self.ex_student.user_telegram_id)
             update.message.reply_text(
-                f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.'
+                f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите u"\U000025B6"/start.'
             )
             self.ex_student = User()
             self.user_selected_field = None
@@ -390,7 +391,7 @@ class ChangeProfileConversation:
             if self.USER_TRIES == 0:
                 update.message.reply_text(
                     f'{msg_for_user}\n'
-                    f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
+                    f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации u"\U000023F9"прекращён.'
                 )
                 # self.USER_TRIES = 2
                 # self.SUCCESSFUL_INPUTS = 0
@@ -406,7 +407,7 @@ class ChangeProfileConversation:
             self.sql_change_profile.sql_update_user_info("Email", user_attrib_to_update,
                                                          self.ex_student.user_telegram_id)
             update.message.reply_text(
-                f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.'
+                f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите u"\U000025B6"/start.'
             )
             self.ex_student = User()
             self.user_selected_field = None
@@ -441,7 +442,7 @@ class ChangeProfileConversation:
             if self.USER_TRIES == 0:
                 update.message.reply_text(
                     f'{msg_for_user}\n'
-                    f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
+                    f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации u"\U000023F9"прекращён.'
                 )
                 # self.USER_TRIES = 2
                 # self.SUCCESSFUL_INPUTS = 0
@@ -457,7 +458,7 @@ class ChangeProfileConversation:
             self.sql_change_profile.sql_update_user_info("Phone", user_attrib_to_update,
                                                          self.ex_student.user_telegram_id)
             update.message.reply_text(
-                f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.'
+                f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите u"\U000025B6"/start.'
             )
             self.ex_student = User()
             self.user_selected_field = None
@@ -492,7 +493,7 @@ class ChangeProfileConversation:
             if self.USER_TRIES == 0:
                 update.message.reply_text(
                     f'{msg_for_user}\n'
-                    f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
+                    f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации u"\U000023F9"прекращён.'
                 )
                 # self.USER_TRIES = 2
                 # self.SUCCESSFUL_INPUTS = 0
@@ -510,7 +511,7 @@ class ChangeProfileConversation:
             self.sql_change_profile.sql_update_user_info("Birthdate", user_attrib_to_update_formatted_date,
                                                          self.ex_student.user_telegram_id)
             update.message.reply_text(
-                f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.'
+                f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите u"\U000025B6"/start.'
             )
             self.ex_student = User()
             self.user_selected_field = None
@@ -545,7 +546,7 @@ class ChangeProfileConversation:
             if self.USER_TRIES == 0:
                 update.message.reply_text(
                     f'{msg_for_user}\n'
-                    f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
+                    f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации u"\U000023F9"прекращён.'
                 )
                 # self.USER_TRIES = 2
                 # self.SUCCESSFUL_INPUTS = 0
@@ -561,7 +562,7 @@ class ChangeProfileConversation:
             self.sql_change_profile.sql_update_user_info("Graduation_date", user_attrib_to_update,
                                                          self.ex_student.user_telegram_id)
             update.message.reply_text(
-                f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.'
+                f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите u"\U000025B6"/start.'
             )
             self.ex_student = User()
             self.user_selected_field = None
@@ -596,7 +597,7 @@ class ChangeProfileConversation:
             if self.USER_TRIES == 0:
                 update.message.reply_text(
                     f'{msg_for_user}\n'
-                    f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
+                    f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации u"\U000023F9"прекращён.'
                 )
                 # self.USER_TRIES = 2
                 # self.SUCCESSFUL_INPUTS = 0
@@ -612,7 +613,7 @@ class ChangeProfileConversation:
             self.sql_change_profile.sql_update_user_info("Institute", user_attrib_to_update,
                                                          self.ex_student.user_telegram_id)
             update.message.reply_text(
-                f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.'
+                f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите u"\U000025B6"/start.'
             )
             self.ex_student = User()
             self.user_selected_field = None
@@ -647,7 +648,7 @@ class ChangeProfileConversation:
             if self.USER_TRIES == 0:
                 update.message.reply_text(
                     f'{msg_for_user}\n'
-                    f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
+                    f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации u"\U000023F9"прекращён.'
                 )
                 # self.USER_TRIES = 2
                 # self.SUCCESSFUL_INPUTS = 0
@@ -663,7 +664,7 @@ class ChangeProfileConversation:
             self.sql_change_profile.sql_update_user_info("Employer", user_attrib_to_update,
                                                          self.ex_student.user_telegram_id)
             update.message.reply_text(
-                f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.'
+                f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите u"\U000025B6"/start.'
             )
             self.ex_student = User()
             self.user_selected_field = None
@@ -698,7 +699,7 @@ class ChangeProfileConversation:
             if self.USER_TRIES == 0:
                 update.message.reply_text(
                     f'{msg_for_user}\n'
-                    f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации прекращён.'
+                    f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации u"\U000023F9"прекращён.'
                 )
                 # self.USER_TRIES = 2
                 # self.SUCCESSFUL_INPUTS = 0
@@ -714,7 +715,7 @@ class ChangeProfileConversation:
             self.sql_change_profile.sql_update_user_info("Position", user_attrib_to_update,
                                                          self.ex_student.user_telegram_id)
             update.message.reply_text(
-                f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите /start.'
+                f'Мы обновили ({self.user_selected_field}). Чтобы продолжить работу с ботом, нажмите u"\U000025B6"/start.'
             )
             self.ex_student = User()
             self.user_selected_field = None
@@ -729,8 +730,8 @@ class ChangeProfileConversation:
         self.logger.info("Пользователь %s отменил разговор.", user.first_name)
         # Отвечаем на отказ поговорить
         update.message.reply_text(
-            'По Вашему запросу разговор прекращён. '
-            'Чтобы продолжить работу с ботом нажмите /start.',
+            'По Вашему запросу разговор u"\U000023F9"прекращён. '
+            'Чтобы продолжить работу с ботом нажмите u"\U000025B6"/start.',
             reply_markup=ReplyKeyboardRemove()
         )
         self.ex_student = User()
