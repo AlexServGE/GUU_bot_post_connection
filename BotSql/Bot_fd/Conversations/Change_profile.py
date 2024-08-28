@@ -66,8 +66,7 @@ class ChangeProfileConversation:
             reply_keyboard = [['Фамилия', 'Имя', 'Отчество'],
                               ['\U00002709Емейл', '\U0001F4F1Телефон', '\U0001F468\U0001F3FB\U0000200D\U00002696\U0000FE0F \U0001F469\U0001F3FB\U0000200D\U00002696\U0000FE0FПол'],
                               ['\U0001F382Дата рождения', '\U0001F393Год выпуска'],
-                              # ['Институт'],
-                              ['\U0001F3EDМесто работы', '\U0001F464Должность']]
+                              ['\U0001F3EDМесто работы', '\U0001F4BCОбразовательная программа','\U0001F464Должность']]
             markup_key = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
             # Разговор
             update.message.reply_text(
@@ -143,12 +142,12 @@ class ChangeProfileConversation:
                 f'Укажите год \U0001F393окончания университета (в формате: 1999):', reply_markup=ReplyKeyboardRemove()
             )
             return self.GRADDATE
-        # elif self.user_selected_field == 'Институт':
-        #     self.INPUTS = 1
-        #     update.message.reply_text(
-        #         f'Укажите, какой институт/направление Вы оканчивали:', reply_markup=ReplyKeyboardRemove()
-        #     )
-        #     return self.INSTITUTE
+        elif self.user_selected_field == '\U0001F4BCОбразовательная программа':
+            self.INPUTS = 1
+            update.message.reply_text(
+                f'Укажите, какую образовательную программу Вы оканчивали:', reply_markup=ReplyKeyboardRemove()
+            )
+            return self.INSTITUTE
         elif self.user_selected_field == '\U0001F3EDМесто работы':
             self.INPUTS = 1
             update.message.reply_text(

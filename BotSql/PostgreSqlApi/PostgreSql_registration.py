@@ -62,8 +62,8 @@ class SqlApiRegistration:
                     Email,
                     Phone,
                     Birthdate,
-                    EdProgram,
                     Graduation_date,
+                    EdProgram,
                     Employer,
                     Position)
                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s); 
@@ -78,8 +78,8 @@ class SqlApiRegistration:
                           user.user_EMAIL,
                           user.user_PHONE,
                           user.user_BIRTHDATE,
-                          user.user_EDPROGRAM,
                           user.user_GRADDATE,
+                          user.user_EDPROGRAM,
                           user.user_EMPLOYER,
                           user.user_POSITION))
                 # connection.commit()
