@@ -37,9 +37,9 @@ Email varchar(32),
 Phone bigint,
 Birthdate varchar(32),
 Graduation_date int,
-Edprogram varchar(32),
+Edprogram varchar(255),
 Employer varchar(255),
-Position varchar(32)
+Position varchar(255)
 );
 
 11 Share bot with the users
