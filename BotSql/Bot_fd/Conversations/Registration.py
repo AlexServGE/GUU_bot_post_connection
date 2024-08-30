@@ -63,7 +63,7 @@ class RegistrationConversation:
                 f'{self.ex_student}\n',
             )
             update.message.reply_text(
-                f'Чтобы продолжить работу с ботом, нажмите /start.',
+                f'Чтобы продолжить работу с ботом, нажмите \U000025B6/start.',
             )
             self.ex_student = User()
             return ConversationHandler.END
@@ -99,8 +99,8 @@ class RegistrationConversation:
             # Разговор
             if update.message.text != "Подтверждаю":
                 update.message.reply_text(
-                    'Вы не подтвердили согласие на обработку Ваших персональных данных. Процесс регистрации прекращён.'
-                    'Чтобы продолжить работу с ботом нажмите /start.'
+                    'Вы не подтвердили согласие на обработку Ваших персональных данных. Процесс регистрации \U000023F9 прекращён.'
+                    'Чтобы продолжить работу с ботом нажмите \U000025B6/start.'
                     , reply_markup=ReplyKeyboardRemove())
                 self.SUCCESSFUL_INPUTS = 0
                 return self.cancel(update, context)
@@ -157,7 +157,7 @@ class RegistrationConversation:
                     return self.personal_data_acceptance(update, context)
                 if self.USER_TRIES == 0:
                     update.message.reply_text(
-                        f'Просьба указывать запрашиваемую информацию. У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации \U000023F9прекращён.'
+                        f'Просьба указывать запрашиваемую информацию. У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации \U000023F9 прекращён.'
                     )
                     self.USER_TRIES = 2
                     self.SUCCESSFUL_INPUTS = 0
@@ -217,7 +217,7 @@ class RegistrationConversation:
                 if self.USER_TRIES == 0:
                     update.message.reply_text(
                         f'{msg_for_user}\n'
-                        f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации \U000023F9прекращён.'
+                        f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации \U000023F9 прекращён.'
                     )
                     self.USER_TRIES = 2
                     self.SUCCESSFUL_INPUTS = 0
@@ -275,7 +275,7 @@ class RegistrationConversation:
                 if self.USER_TRIES == 0:
                     update.message.reply_text(
                         f'{msg_for_user}\n'
-                        f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации \U000023F9прекращён.'
+                        f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации \U000023F9 прекращён.'
                     )
                     self.USER_TRIES = 2
                     self.SUCCESSFUL_INPUTS = 0
@@ -332,7 +332,7 @@ class RegistrationConversation:
                 if self.USER_TRIES == 0:
                     update.message.reply_text(
                         f'{msg_for_user}\n'
-                        f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации \U000023F9прекращён.'
+                        f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации \U000023F9 прекращён.'
                     )
                     self.USER_TRIES = 2
                     self.SUCCESSFUL_INPUTS = 0
@@ -388,7 +388,7 @@ class RegistrationConversation:
                 if self.USER_TRIES == 0:
                     update.message.reply_text(
                         f'{msg_for_user}\n'
-                        f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации \U000023F9прекращён.'
+                        f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации \U000023F9 прекращён.'
                     )
                     self.USER_TRIES = 2
                     self.SUCCESSFUL_INPUTS = 0
@@ -444,7 +444,7 @@ class RegistrationConversation:
                 if self.USER_TRIES == 0:
                     update.message.reply_text(
                         f'{msg_for_user}\n'
-                        f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации \U000023F9прекращён.'
+                        f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации \U000023F9 прекращён.'
                     )
                     self.USER_TRIES = 2
                     self.SUCCESSFUL_INPUTS = 0
@@ -500,7 +500,7 @@ class RegistrationConversation:
                 if self.USER_TRIES == 0:
                     update.message.reply_text(
                         f'{msg_for_user}\n'
-                        f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации \U000023F9прекращён.'
+                        f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации \U000023F9 прекращён.'
                     )
                     self.USER_TRIES = 2
                     self.SUCCESSFUL_INPUTS = 0
@@ -558,7 +558,7 @@ class RegistrationConversation:
                 if self.USER_TRIES == 0:
                     update.message.reply_text(
                         f'{msg_for_user}\n'
-                        f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации \U000023F9прекращён.'
+                        f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации \U000023F9 прекращён.'
                     )
                     self.USER_TRIES = 2
                     self.SUCCESSFUL_INPUTS = 0
@@ -614,7 +614,7 @@ class RegistrationConversation:
                 if self.USER_TRIES == 0:
                     update.message.reply_text(
                         f'{msg_for_user}\n'
-                        f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации \U000023F9прекращён.'
+                        f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации \U000023F9 прекращён.'
                     )
                     self.USER_TRIES = 2
                     self.SUCCESSFUL_INPUTS = 0
@@ -670,7 +670,7 @@ class RegistrationConversation:
                 if self.USER_TRIES == 0:
                     update.message.reply_text(
                         f'{msg_for_user}\n'
-                        f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации \U000023F9прекращён.'
+                        f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации \U000023F9 прекращён.'
                     )
                     self.USER_TRIES = 2
                     self.SUCCESSFUL_INPUTS = 0
@@ -726,7 +726,7 @@ class RegistrationConversation:
                 if self.USER_TRIES == 0:
                     update.message.reply_text(
                         f'{msg_for_user}\n'
-                        f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации \U000023F9прекращён.'
+                        f'У Вас осталось {self.USER_TRIES} попыток. Процесс регистрации \U000023F9 прекращён.'
                     )
                     self.USER_TRIES = 2
                     self.SUCCESSFUL_INPUTS = 0
@@ -794,7 +794,7 @@ class RegistrationConversation:
         self.logger.info("Пользователь %s отменил разговор.", user.first_name)
         # Отвечаем на отказ поговорить
         update.message.reply_text(
-            'По Вашему запросу разговор \U000023F9прекращён. '
+            'По Вашему запросу разговор \U000023F9 прекращён. '
             'Чтобы продолжить работу с ботом нажмите \U000025B6/start.',
             reply_markup=ReplyKeyboardRemove()
         )

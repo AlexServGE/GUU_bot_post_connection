@@ -85,7 +85,7 @@ class DeleteProfileConversation:
         self.logger.info("Пользователь %s отменил разговор.", user.first_name)
         # Отвечаем на отказ поговорить
         update.message.reply_text(
-            'По Вашему запросу разговор \U000023F9прекращён. '
+            'По Вашему запросу разговор \U000023F9 прекращён. '
             'Чтобы продолжить работу с ботом нажмите \U000025B6/start.',
             reply_markup=ReplyKeyboardRemove()
         )

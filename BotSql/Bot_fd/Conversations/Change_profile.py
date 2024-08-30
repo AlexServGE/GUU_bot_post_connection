@@ -74,7 +74,7 @@ class ChangeProfileConversation:
                 f'{self.ex_student}', )
             # Разговор
             update.message.reply_text(
-                f'Укажите поле, которое хотели бы обновить о себе. Команда /cancel, чтобы \U000023F9прекратить разговор.',
+                f'Укажите поле, которое хотели бы обновить о себе. Команда \U000023F9/cancel, чтобы прекратить разговор.',
                 reply_markup=markup_key, )
             return self.CHANGE_PROFILE_ONE_FIELD
 
@@ -729,7 +729,7 @@ class ChangeProfileConversation:
         self.logger.info("Пользователь %s отменил разговор.", user.first_name)
         # Отвечаем на отказ поговорить
         update.message.reply_text(
-            'По Вашему запросу разговор \U000023F9прекращён. '
+            'По Вашему запросу разговор \U000023F9 прекращён. '
             'Чтобы продолжить работу с ботом нажмите \U000025B6/start.',
             reply_markup=ReplyKeyboardRemove()
         )
