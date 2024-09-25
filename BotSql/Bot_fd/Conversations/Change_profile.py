@@ -56,7 +56,7 @@ class ChangeProfileConversation:
         user_sql_info_tuple = self.sql_change_profile.sql_select_all_user_info(self.ex_student.user_telegram_id)
         if not user_sql_info_tuple:
             update.message.reply_text(
-                f'К сожалению, нам не удалось найти информацию о Вашем профиле в \U0001F393Ассоциации выпускников.\n' \
+                f'К сожалению, нам не удалось найти информацию о Вашем профиле в \U0001F393Клубе выпускников.\n' \
                 f'Вы можете пройти регистрацию. Для этого нажмите \U000025B6/start.',
             )
             return ConversationHandler.END
