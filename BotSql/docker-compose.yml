@@ -3,7 +3,7 @@ version: '3.3'
 services:
   postgres:
     container_name: postgres_container
-    image: postgres
+    image: postgres:16
     command: -c ssl=on -c ssl_cert_file=/var/lib/postgresql/server.crt -c ssl_key_file=/var/lib/postgresql/server.key
     environment:
       POSTGRES_USER: postgres

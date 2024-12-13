@@ -7,5 +7,5 @@ COPY ./ca/server.crt /root/.postgresql/root.crt
 ENV TZ=Europe/Moscow
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN python -m pip install -r ./BotSql/requirements.txt
-WORKDIR ./BotSql/
+WORKDIR /BotSql/
 CMD [ "python", "main.py" ]
