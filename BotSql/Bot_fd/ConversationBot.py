@@ -3,7 +3,7 @@ from telegram.ext import (
     Updater,
     CommandHandler,
     MessageHandler,
-    filters,
+    Filters,
     ConversationHandler,
 )
 from Bot_fd.Conversations.Registration import RegistrationConversation
@@ -62,34 +62,34 @@ class ConversationBot:
     def bot_session(self):
         conv_handler_registration = ConversationHandler(  # здесь строится логика разговора
             # точка входа в разговор
-            entry_points=[MessageHandler(filters.regex('^(Зарегистрироваться|зарегистрироваться)$'),
+            entry_points=[MessageHandler(Filters.regex('^(Зарегистрироваться|зарегистрироваться)$'),
                                          self.registration_conversation.start_registration)],
             # этапы разговора, каждый со своим списком обработчиков сообщений
             states={
                 self.registration_conversation.PERSONAL_INFO_ACCEPTANCE: [
-                    MessageHandler(filters.text, self.registration_conversation.personal_data_acceptance)],
+                    MessageHandler(Filters.text, self.registration_conversation.personal_data_acceptance)],
                 self.registration_conversation.GENDER: [
-                    MessageHandler(filters.text, self.registration_conversation.reg_gender)],
+                    MessageHandler(Filters.text, self.registration_conversation.reg_gender)],
                 self.registration_conversation.SURNAME: [
-                    MessageHandler(filters.text, self.registration_conversation.reg_surname)],
+                    MessageHandler(Filters.text, self.registration_conversation.reg_surname)],
                 self.registration_conversation.NAME: [
-                    MessageHandler(filters.text, self.registration_conversation.reg_name)],
+                    MessageHandler(Filters.text, self.registration_conversation.reg_name)],
                 self.registration_conversation.PATRONYMIC: [
-                    MessageHandler(filters.text, self.registration_conversation.reg_patronymic)],
+                    MessageHandler(Filters.text, self.registration_conversation.reg_patronymic)],
                 self.registration_conversation.EMAIL: [
-                    MessageHandler(filters.text, self.registration_conversation.reg_email)],
+                    MessageHandler(Filters.text, self.registration_conversation.reg_email)],
                 self.registration_conversation.PHONE: [
-                    MessageHandler(filters.text, self.registration_conversation.reg_phone)],
+                    MessageHandler(Filters.text, self.registration_conversation.reg_phone)],
                 self.registration_conversation.BIRTHDATE: [
-                    MessageHandler(filters.text, self.registration_conversation.reg_birthdate)],
+                    MessageHandler(Filters.text, self.registration_conversation.reg_birthdate)],
                 self.registration_conversation.GRADDATE: [
-                    MessageHandler(filters.text, self.registration_conversation.reg_graddate)],
+                    MessageHandler(Filters.text, self.registration_conversation.reg_graddate)],
                 self.registration_conversation.INSTITUTE: [
-                    MessageHandler(filters.text, self.registration_conversation.reg_institute)],
+                    MessageHandler(Filters.text, self.registration_conversation.reg_institute)],
                 self.registration_conversation.EMPLOYER: [
-                    MessageHandler(filters.text, self.registration_conversation.reg_employer)],
+                    MessageHandler(Filters.text, self.registration_conversation.reg_employer)],
                 self.registration_conversation.POSITION: [
-                    MessageHandler(filters.text, self.registration_conversation.reg_position)],
+                    MessageHandler(Filters.text, self.registration_conversation.reg_position)],
             },
             # точка выхода из разговора
             fallbacks=[CommandHandler('cancel', self.registration_conversation.cancel)],  ##что-то другое нужно
@@ -97,35 +97,35 @@ class ConversationBot:
 
         conv_handler_change_profile = ConversationHandler(  # здесь строится логика разговора
             # точка входа в разговор
-            entry_points=[MessageHandler(filters.regex('^(Обновить|обновить)$'),
+            entry_points=[MessageHandler(Filters.regex('^(Обновить|обновить)$'),
                                          # Обновить|обновить соответствует выбору в методе start
                                          self.change_profile_conversation.start_change_profile)],
             # этапы разговора, каждый со своим списком обработчиков сообщений
             states={
                 self.change_profile_conversation.CHANGE_PROFILE_ONE_FIELD: [
-                    MessageHandler(filters.text, self.change_profile_conversation.change_profile_one_field)],
+                    MessageHandler(Filters.text, self.change_profile_conversation.change_profile_one_field)],
                 self.change_profile_conversation.GENDER: [
-                    MessageHandler(filters.text, self.change_profile_conversation.change_gender)],
+                    MessageHandler(Filters.text, self.change_profile_conversation.change_gender)],
                 self.change_profile_conversation.SURNAME: [
-                    MessageHandler(filters.text, self.change_profile_conversation.change_surname)],
+                    MessageHandler(Filters.text, self.change_profile_conversation.change_surname)],
                 self.change_profile_conversation.NAME: [
-                    MessageHandler(filters.text, self.change_profile_conversation.change_name)],
+                    MessageHandler(Filters.text, self.change_profile_conversation.change_name)],
                 self.change_profile_conversation.PATRONYMIC: [
-                    MessageHandler(filters.text, self.change_profile_conversation.change_patronymic)],
+                    MessageHandler(Filters.text, self.change_profile_conversation.change_patronymic)],
                 self.change_profile_conversation.EMAIL: [
-                    MessageHandler(filters.text, self.change_profile_conversation.change_email)],
+                    MessageHandler(Filters.text, self.change_profile_conversation.change_email)],
                 self.change_profile_conversation.PHONE: [
-                    MessageHandler(filters.text, self.change_profile_conversation.change_phone)],
+                    MessageHandler(Filters.text, self.change_profile_conversation.change_phone)],
                 self.change_profile_conversation.BIRTHDATE: [
-                    MessageHandler(filters.text, self.change_profile_conversation.change_birthdate)],
+                    MessageHandler(Filters.text, self.change_profile_conversation.change_birthdate)],
                 self.change_profile_conversation.GRADDATE: [
-                    MessageHandler(filters.text, self.change_profile_conversation.change_graddate)],
+                    MessageHandler(Filters.text, self.change_profile_conversation.change_graddate)],
                 self.change_profile_conversation.INSTITUTE: [
-                    MessageHandler(filters.text, self.change_profile_conversation.change_institute)],
+                    MessageHandler(Filters.text, self.change_profile_conversation.change_institute)],
                 self.change_profile_conversation.EMPLOYER: [
-                    MessageHandler(filters.text, self.change_profile_conversation.change_employer)],
+                    MessageHandler(Filters.text, self.change_profile_conversation.change_employer)],
                 self.change_profile_conversation.POSITION: [
-                    MessageHandler(filters.text, self.change_profile_conversation.change_position)],
+                    MessageHandler(Filters.text, self.change_profile_conversation.change_position)],
             },
             # точка выхода из разговора
             fallbacks=[CommandHandler('cancel', self.registration_conversation.cancel)],  ##что-то другое нужно
@@ -133,13 +133,13 @@ class ConversationBot:
 
         conv_handler_delete_profile = ConversationHandler(  # здесь строится логика разговора
             # точка входа в разговор
-            entry_points=[MessageHandler(filters.regex('^(Удалить|удалить)$'),
+            entry_points=[MessageHandler(Filters.regex('^(Удалить|удалить)$'),
                                          # Удалить|удалить соответствует выбору в методе start
                                          self.delete_profile_conversation.start_delete_profile)],
             # этапы разговора, каждый со своим списком обработчиков сообщений
             states={
                 self.delete_profile_conversation.DELETE_PROFILE: [
-                    MessageHandler(filters.text, self.delete_profile_conversation.delete_profile)],
+                    MessageHandler(Filters.text, self.delete_profile_conversation.delete_profile)],
             },
             # точка выхода из разговора
             fallbacks=[CommandHandler('cancel', self.registration_conversation.cancel)],  ##что-то другое нужно
